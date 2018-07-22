@@ -63,6 +63,8 @@ fi
 cabal new-configure all -w "$HC" --allow-newer=base,primitive --ghc-options="$HC_FLAGS" --bindir="$BIN_DIR" --enable-benchmarks
 cabal new-build all -j4 --reinstall
 
+cp aeson/benchmarks/json-data .
+
 for benchmark in aeson-benchmark-typed aeson-benchmark-micro aeson-benchmark-map aeson-benchmark-json-parse aeson-benchmark-foldable aeson-benchmark-escape aeson-benchmark-dates aeson-benchmark-compare-with-json aeson-benchmark-compare aeson-benchmark-auto-compare aeson-benchmark-aeson-parse aeson-benchmark-aeson-encode;
 do
     cabal new-run "$benchmark" -- --csv $benchmark.csv
