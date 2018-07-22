@@ -21,7 +21,7 @@ do
         HC_FLAGS="-fnew-blocklayout -fcfg-weights=callWeight=-900"
         ;;
     esac
-    HC=~/trees4/${compiler}/inplace/bin/ghc-stage2
+    HC=~/trees5/${compiler}/inplace/bin/ghc-stage2
 
     mkdir "aeson_${compiler}"
     cp bench.sh "aeson_${compiler}"
