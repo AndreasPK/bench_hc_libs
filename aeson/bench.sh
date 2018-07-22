@@ -1,5 +1,5 @@
 #set -x
-if [ -z $1 ]; then
+if [ -z ${1} ]; then
     echo "Please specify a compiler: $0 <HC>"
     #exit
     HC="C:\\ghc\\msys64\\home\\Andi\\ghc_layout\\inplace\\bin\\ghc-stage2.exe"
@@ -7,16 +7,16 @@ else
     HC="$1"
 fi
 
-if [ -z $2 ]; then
+if [[ -z ${2} ]]; then
     echo "Warning: No flags given"
     #HC_FLAGS="-fno-new-blocklayout -fvanilla-blocklayout "
     HC_FLAGS="-fnew-blocklayout "
 else
-    HC_FLAGS="$2"
+    HC_FLAGS="${2}"
 fi
 echo "Using flags: $HC_FLAGS"
 
-if [ -z $3 ]; then
+if [ -z ${3} ]; then
     echo "Warning: bin dir not given"
     BIN_DIR="pbin"
 else
