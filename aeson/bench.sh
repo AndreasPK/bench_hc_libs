@@ -52,7 +52,7 @@ fi
 
 
 
-cabal new-configure all -w "$HC" --allow-newer=base,primitive --ghc-options="$HC_FLAGS" --bindir="$BIN_DIR" --enable-benchmarks
+cabal new-configure all -w "$HC" --allow-newer=base,primitive --ghc-options="$HC_FLAGS" --bindir="$BIN_DIR" --enable-benchmarks --store-dir="./store"
 cabal new-build all -j4 --reinstall
 
 cp aeson/benchmarks/json-data . -r
