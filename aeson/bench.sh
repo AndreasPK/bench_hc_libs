@@ -10,9 +10,9 @@ fi
 if [[ -z ${2} ]]; then
     echo "Warning: No flags given"
     #HC_FLAGS="-fno-new-blocklayout -fvanilla-blocklayout "
-    HC_FLAGS="-fnew-blocklayout "
+    HC_FLAGS=""
 else
-    HC_FLAGS="${2}"
+    HC_FLAGS="-ddump-asm -ddump-cmm -ddump-simpl -ddump-to-file -dsuppress-all ${2}"
 fi
 echo "Using flags: $HC_FLAGS"
 
