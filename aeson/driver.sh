@@ -3,7 +3,7 @@ for compiler in adjusted  allCalls  head  noCalls  someCalls  vanilla
 do
     case $compiler in
     head)
-        HC_FLAGS="-V0"
+        HC_FLAGS="-v0"
         ;;
     vanilla)
         HC_FLAGS="-fno-new-blocklayout -fvanilla-blocklayout"
