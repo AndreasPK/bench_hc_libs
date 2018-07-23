@@ -3,7 +3,7 @@ for compiler in adjusted  allCalls  head  noCalls  someCalls  vanilla
 do
     case $compiler in
     head)
-        HC_FLAGS=""
+        HC_FLAGS="-V0"
         ;;
     vanilla)
         HC_FLAGS="-fno-new-blocklayout -fvanilla-blocklayout"
@@ -21,7 +21,15 @@ do
         HC_FLAGS="-fnew-blocklayout -fcfg-weights=callWeight=-900"
         ;;
     esac
-    HC=~/trees4/${compiler}/inplace/bin/ghc-stage2
+
+    unameOut="$(uname -s)"
+    case $unameOut in
+    MINGW*)
+        HC="C:\\ghc\\msys64\\home\\Andi\\trees5\\${compiler}\\inplace\\bin\\ghc-stage2.exe" ;;
+    *)
+        HC=~/trees4/${compiler}/inplace/bin/ghc-stage2 ;;
+    esac
+
 
     mkdir "aeson_${compiler}"
     cp bench.sh "aeson_${compiler}"
