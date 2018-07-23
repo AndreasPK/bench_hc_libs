@@ -16,14 +16,6 @@ else
 fi
 echo "Using flags: $HC_FLAGS"
 
-if [ -z ${3} ]; then
-    echo "Warning: bin dir not given"
-    BIN_DIR="pbin"
-else
-    BIN_DIR="$3"
-fi
-echo "Using bin dir: $BIN_DIR"
-
 if [ ! -d "aeson" ]; then
   git clone https://github.com/bos/aeson.git
 fi
