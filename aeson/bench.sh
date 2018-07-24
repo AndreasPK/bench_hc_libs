@@ -1,4 +1,7 @@
 #set -x
+
+LOG_DIR=../benchResults/
+
 if [ -z ${1} ]; then
     echo "Please specify a compiler: $0 <HC>"
     #exit
@@ -7,13 +10,6 @@ else
     HC="$1"
 fi
 
-if [[ -z ${2} ]]; then
-    echo "Warning: No flags given"
-    #HC_FLAGS="-fno-new-blocklayout -fvanilla-blocklayout "
-    HC_FLAGS=""
-else
-    HC_FLAGS="-ddump-asm -ddump-cmm -ddump-simpl -ddump-to-file -dsuppress-all ${2}"
-fi
 echo "Using flags: $HC_FLAGS"
 
 if [ ! -d "aeson" ]; then
@@ -50,16 +46,25 @@ if [ ! -d "json-builder" ]; then
 fi
 
 
+FLAG_NAMES=('vanilla', 'all', 'some', 'none')
+FLAG_STRS=('-fno-new-blocklayout -fvanilla-blocklayout', '-fnew-blocklayout -fcfg-weights=callWeight=310', '-fnew-blocklayout -fcfg-weights=callWeight=300', '-fnew-blocklayout -fcfg-weights=callWeight=-900')
 
-
-cabal new-configure all -w "$HC" --allow-newer=base,primitive --ghc-options="$HC_FLAGS" --bindir="$BIN_DIR" --enable-benchmarks --store-dir="./store"
-cabal new-build all -j4 --reinstall
 
 cp aeson/benchmarks/json-data . -r
 
-for benchmark in aeson-benchmark-typed aeson-benchmark-micro aeson-benchmark-map aeson-benchmark-json-parse aeson-benchmark-foldable aeson-benchmark-escape aeson-benchmark-dates aeson-benchmark-compare-with-json aeson-benchmark-compare aeson-benchmark-auto-compare aeson-benchmark-aeson-parse aeson-benchmark-aeson-encode;
+DIR_NAME=${PWD##*/}
+BENCH_PREFIX=${DIR_NAME#aeson_}
+
+for i in {0..3};
 do
-    cabal new-run "$benchmark" -- --csv $benchmark.csv
+    HC_FLAGS=FLAG_STRS[$i]
+    cabal new-configure all -w "$HC" --allow-newer=base,primitive --ghc-options="${HC_FLAGS}" --bindir="$BIN_DIR" --enable-benchmarks --store-dir="./store"
+    cabal new-build all -j4
+
+    for benchmark in aeson-benchmark-typed aeson-benchmark-micro aeson-benchmark-map aeson-benchmark-json-parse aeson-benchmark-foldable aeson-benchmark-escape aeson-benchmark-dates aeson-benchmark-compare-with-json aeson-benchmark-compare aeson-benchmark-auto-compare aeson-benchmark-aeson-parse aeson-benchmark-aeson-encode;
+    do
+        cabal new-run "$benchmark" -- --csv "$LOG_DIR/${BENCH_PREFIX}.${FLAG_NAMES[$i]}${benchmark}.csv"
+    done
 done
 
 cd
