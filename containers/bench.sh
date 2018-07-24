@@ -34,9 +34,9 @@ cabal new-update
 
 DIR_NAME=${PWD##*/}
 COMPILER_NAME=${DIR_NAME#aeson_}
-BENCHMARKS=('set-operations-set' 'set-operations-map' 'set-operations-intset' 'set-operations-intmap'
-            'set-benchmarks' 'sequence-benchmarks' 'map-benchmarks' 'lookupge-map' 'lookupge-intmap'
-            'intset-benchmarks' 'intmap-benchmarks')
+BENCHMARKS="set-operations-set set-operations-map set-operations-intset set-operations-intmap
+            set-benchmarks sequence-benchmarks map-benchmarks lookupge-map lookupge-intmap
+            intset-benchmarks intmap-benchmarks"
 # STORE_DIR=~/.store_${COMPILER_NAME}
 # STORE="--store-dir=${STORE_DIR} "
 for i in {0..3};
@@ -48,6 +48,7 @@ do
 
     for benchmark in ${BENCHMARKS};
     do
+        echo "Benchmark: $benchmark"
         cabal new-run  "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_NAMES[$i]}.${benchmark}.csv"
     done
 done
