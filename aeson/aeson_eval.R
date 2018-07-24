@@ -2,40 +2,59 @@
 #library(dplyr)    
 #library(rlang)    
 
-results <- list()
-for(variant in c("aeson_adjusted",  "aeson_allCalls",  "aeson_head",  "aeson_noCalls",  "aeson_someCalls",  "aeson_vanilla")) {
-  
-  benchmarks = c("aeson-benchmark-typed", "aeson-benchmark-micro", "aeson-benchmark-map", "aeson-benchmark-foldable",
-                 "aeson-benchmark-escape", "aeson-benchmark-dates", "aeson-benchmark-compare-with-json", "aeson-benchmark-compare", "aeson-benchmark-auto-compare")
+gm_mean = function(x, na.rm=TRUE){
+  exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
+}
+
+resultPath <- "remoteResults/benchResultsXeon1/"
+compiler <- "allCalls"
+
+benchmarks = c("aeson-benchmark-typed", "aeson-benchmark-micro", "aeson-benchmark-map", "aeson-benchmark-foldable",
+               "aeson-benchmark-escape", "aeson-benchmark-dates", "aeson-benchmark-compare-with-json", "aeson-benchmark-compare", "aeson-benchmark-auto-compare")
+variants <- c("all",  "vanilla", "some", "none")
+
+csvresults <- list()
+for(variant in variants) {
+#for(variant in c("aeson_adjusted",  "aeson_allCalls",  "aeson_head",  "aeson_noCalls",  "aeson_someCalls",  "aeson_vanilla")) {
    
   speedups <- list()
   benchmark <- "aeson-benchmark-typed"
   for (benchmark in benchmarks) {
     print(variant)
     print(benchmark)
-    old <- read.csv(paste("aeson_head/", benchmark, ".csv", sep=""), header = TRUE, row.names = 1)
-    old_means <- old[,1]
-    old_means
-    new <- read.csv(paste(variant, "/", benchmark, ".csv", sep=""), header = TRUE, row.names = 1)
-    new_means <- new[,1]
-    new_means
-  
-    speedup <- mean(old_means/new_means)
-    speedups[[benchmark]] <- speedup
+    csv <- read.csv(paste(resultPath, compiler, ".", variant, ".", benchmark, ".csv", sep=""), header = TRUE, row.names = 1)
+    csvresults[[benchmark]][[variant]] <- csv[,1]
+    names(csvresults[[benchmark]][[variant]]) <- rownames(csv)
   }
-  x <- unlist(speedups)
-  results[[variant]] <- x
+}
+csvresults
+
+speedups <- list()
+for(variant in variants) {
+  speedups[[variant]] <- list()
+  for(benchmark in benchmarks) {
+    speedup <- csvresults[[benchmark]][["vanilla"]]/csvresults[[benchmark]][[variant]]
+    print(speedup)
+    speedups[[variant]][[benchmark]] <- speedup
+  }
 }
 
-print(results)
-x <- x*100
-print(x)
-print("Speedup avg")
-print(mean(x))
-print("Speedup med")
-print(median(x))
-
-gm_mean = function(x, na.rm=TRUE){
-  exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
+meanSpeedups <- matrix(nrow = length(benchmarks), ncol = length(variants), dimnames = list(bench = benchmarks, algo=variants))
+for(vi in 1:length(variants)) {
+  variant <- variants[vi]
+  for(bi in 1:length(benchmarks)) {
+    benchmark <- benchmarks[bi]
+    speedup <- csvresults[[benchmark]][["vanilla"]]/csvresults[[benchmark]][[variant]]
+    x <- gm_mean(speedup)
+    meanSpeedups[bi, vi] <- x
+  }
 }
+geoMean_overall <- apply(FUN = gm_mean, X = meanSpeedups, MARGIN = c(2))
+apply(FUN = gm_mean, X = meanSpeedups[,c(1,3,4)], MARGIN = c(1))
+
+rbind(meanSpeedups, geoMean_overall)
+
+meanSpeedups
+heatmap(meanSpeedups)
+
 
