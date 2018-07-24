@@ -1,5 +1,6 @@
 
-for compiler in adjusted  allCalls  head  noCalls  someCalls  vanilla
+for compiler in allCalls;
+#adjusted  allCalls  head  noCalls  someCalls  vanilla
 do
     unameOut="$(uname -s)"
     case $unameOut in
