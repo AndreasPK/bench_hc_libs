@@ -1,6 +1,7 @@
 #set -x
 
 LOG_DIR=../benchResults/
+mkdir -p "$LOG_DIR"
 
 if [ -z ${1} ]; then
     echo "Please specify a compiler: $0 <HC>"
@@ -58,6 +59,7 @@ BENCH_PREFIX=${DIR_NAME#aeson_}
 for i in {0..3};
 do
     HC_FLAGS=FLAG_STRS[$i]
+    echo "Configure for $FLAG_NAMES[$i] - $HC_FLAGS"
     cabal new-configure all -w "$HC" --allow-newer=base,primitive --ghc-options="${HC_FLAGS}" --bindir="$BIN_DIR" --enable-benchmarks --store-dir="./store"
     cabal new-build all -j4
 
