@@ -1,4 +1,11 @@
 set -x
+
+LOG_DIR=../benchResults
+FLAG_NAMES=('vanilla' 'all' 'some' 'none')
+FLAG_STRS=('-fno-new-blocklayout -fvanilla-blocklayout' '-fnew-blocklayout -fcfg-weights=callWeight=310' '-fnew-blocklayout -fcfg-weights=callWeight=300' '-fnew-blocklayout -fcfg-weights=callWeight=-900')
+mkdir -p "$LOG_DIR"
+
+
 if [ -z ${1} ]; then
     echo "Please specify a compiler: $0 <HC>"
     #exit
@@ -6,13 +13,6 @@ if [ -z ${1} ]; then
 else
     HC="$1"
 fi
-if [[ ! $# -ge 2 ]]; then
-    echo "Warning: No flags given"
-    #HC_FLAGS="-fno-new-blocklayout -fvanilla-blocklayout "
-else
-    HC_FLAGS="-ddump-asm -ddump-cmm -ddump-simpl -ddump-to-file -dsuppress-all ${2}"
-fi
-echo "Using flags: $HC_FLAGS"
 
 if [ ! -d "containers" ]; then
   git clone http://github.com/haskell/containers.git
@@ -28,28 +28,26 @@ if [ ! -d "primitive" ]; then
   cd ..
 fi
 
-# if grep "primitive" cabal.project; then
-#     echo "cabal.project already updated"
-# else
-#     echo "packages: primitive/" >> cabal.project
-#     echo -e "repository head.hackage\n" \
-#   "  url: http://head.hackage.haskell.org/\n" \
-#   "  secure: True\n" \
-#   "  root-keys: 07c59cb65787dedfaef5bd5f987ceb5f7e5ebf88b904bbd4c5cbdeb2ff71b740\n" \
-#   "             2e8555dde16ebd8df076f1a8ef13b8f14c66bad8eafefd7d9e37d0ed711821fb\n" \
-#   "             8f79fd2389ab2967354407ec852cbe73f2e8635793ac446d09461ffb99527f6e\n" \
-#   "  key-threshold: 3" >> cabal.project
-# fi
+cabal new-update
 
-# if [ ! -d "json-builder" ]; then
-#     git clone https://github.com/nikomi/json-builder.git
-#     cd json-builder
-#     git reset --hard fef4700
-#     cd ..
-# fi
+#Build with different flags
 
+DIR_NAME=${PWD##*/}
+COMPILER_NAME=${DIR_NAME#aeson_}
+BENCHMARKS=('set-operations-set' 'set-operations-map' 'set-operations-intset' 'set-operations-intmap'
+            'set-benchmarks' 'sequence-benchmarks' 'map-benchmarks' 'lookupge-map' 'lookupge-intmap'
+            'intset-benchmarks' 'intmap-benchmarks')
+# STORE_DIR=~/.store_${COMPILER_NAME}
+# STORE="--store-dir=${STORE_DIR} "
+for i in {0..3};
+do
+    HC_FLAGS=${FLAG_STRS[$i]}
+    echo "Configure for ${FLAG_NAMES[$i]} - ${HC_FLAGS}"
+    cabal new-configure all -w "$HC" --allow-newer=base,primitive,criterion,containers,vector --ghc-options="$HC_FLAGS" --enable-benchmarks
+    cabal new-build all -j4
 
-
-
-cabal new-configure all -w "$HC" --allow-newer=base,primitive,criterion,containers --ghc-options="$HC_FLAGS" --enable-benchmarks
-cabal new-build all -j4
+    for benchmark in ${BENCHMARKS};
+    do
+        cabal new-run  "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_NAMES[$i]}.${benchmark}.csv"
+    done
+done
