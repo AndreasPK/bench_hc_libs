@@ -50,7 +50,6 @@ fi
 FLAG_NAMES=('vanilla' 'all' 'some' 'none')
 FLAG_STRS=('-fno-new-blocklayout -fvanilla-blocklayout' '-fnew-blocklayout -fcfg-weights=callWeight=310' '-fnew-blocklayout -fcfg-weights=callWeight=300' '-fnew-blocklayout -fcfg-weights=callWeight=-900')
 
-
 cp aeson/benchmarks/json-data . -r
 
 DIR_NAME=${PWD##*/}
@@ -59,7 +58,7 @@ BENCH_PREFIX=${DIR_NAME#aeson_}
 for i in {0..3};
 do
     HC_FLAGS=${FLAG_STRS[$i]}
-    echo "Configure for $FLAG_NAMES[$i] - ${HC_FLAGS}"
+    echo "Configure for ${FLAG_NAMES[$i]} - ${HC_FLAGS}"
     cabal new-configure all -w "$HC" --allow-newer=base,primitive --ghc-options="${HC_FLAGS}" --enable-benchmarks
     cabal new-build all -j4
 
