@@ -1,6 +1,6 @@
 #set -x
 
-LOG_DIR=../benchResults/
+LOG_DIR=../benchResults
 mkdir -p "$LOG_DIR"
 
 if [ -z ${1} ]; then
