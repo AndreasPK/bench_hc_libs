@@ -9,6 +9,7 @@ repository head.hackage
 packages:
     containers/
     primitive/
+    vector-algorithms/
 
 
 allow-newer:async,transformers,binary,Glob

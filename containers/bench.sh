@@ -28,6 +28,12 @@ if [ ! -d "primitive" ]; then
   cd ..
 fi
 
+if [ ! -d "vector-algorithms" ]; then
+  curl https://hub.darcs.net/dolio/vector-algorithms/dist --output vector-algorithms.zip
+  unzip vector-algorithms.zip
+  sed "s/Odph/O2/" -i vector-algorithms/vector-algorithms.cabal
+fi
+
 cabal new-update
 
 #Build with different flags
