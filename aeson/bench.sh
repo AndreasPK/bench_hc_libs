@@ -61,13 +61,13 @@ COMPILER_NAME=${DIR_NAME#aeson_}
 for i in {0..3};
 do
     HC_FLAGS=${FLAG_STRS[$i]}
-    echo "Configure for ${FLAG_NAMES[$i]} - ${HC_FLAGS}"
-    cabal new-configure all -w "$HC" --allow-newer=base,primitive --ghc-options="${HC_FLAGS}" --enable-benchmarks
-    cabal new-build all
+    echo "Flags ${FLAG_NAMES[$i]} - ${HC_FLAGS}"
+    cabal new-configure all
+    cabal new-build all -w "$HC" --allow-newer=base,primitive --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests
 
     for benchmark in aeson-benchmark-typed aeson-benchmark-micro aeson-benchmark-map aeson-benchmark-json-parse aeson-benchmark-foldable aeson-benchmark-escape aeson-benchmark-dates aeson-benchmark-compare-with-json aeson-benchmark-compare aeson-benchmark-auto-compare aeson-benchmark-aeson-parse aeson-benchmark-aeson-encode;
     do
-        cabal new-run  "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_NAMES[$i]}.${benchmark}.csv"
+        cabal new-run -w "$HC" --allow-newer=base,primitive --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_NAMES[$i]}.${benchmark}.csv"
     done
 done
 
