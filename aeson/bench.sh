@@ -6,7 +6,7 @@ mkdir -p "$LOG_DIR"
 if [ -z ${1} ]; then
     echo "Please specify a compiler: $0 <HC>"
     #exit
-    HC="C:\\ghc\\msys64\\home\\Andi\\ghc_layout\\inplace\\bin\\ghc-stage2.exe"
+    HC="C:\\ghc\\msys64\\home\\Andi\\trees5\\vanilla\\inplace\\bin\\ghc-stage2.exe"
 else
     HC="$1"
 fi
@@ -56,19 +56,18 @@ cabal new-update
 
 DIR_NAME=${PWD##*/}
 COMPILER_NAME=${DIR_NAME#aeson_}
-# STORE_DIR=~/.store_${COMPILER_NAME}
-# STORE="--store-dir=${STORE_DIR} "
 for i in {0..3};
 do
-    HC_FLAGS=${FLAG_STRS[$i]}
-    echo "Flags ${FLAG_NAMES[$i]} - ${HC_FLAGS}"
-    cabal new-configure all
-    CABAL_SETTINGS="-w \"$HC\" --allow-newer=base,primitive --ghc-options=\"${HC_FLAGS}\" --enable-benchmarks --disable-tests"
-    cabal new-build all ${CABAL_SETTINGS}
+    HC_FLAGS="${FLAG_STRS[$i]}"
+    FLAG_VARIANT="${FLAG_NAMES[$i]}"
+    STORE_DIR=~/.store_"${FLAG_VARIANT}"
+    echo "Flags ${FLAG_VARIANT} - ${HC_FLAGS}"
+    cabal --store-dir=$STORE_DIR new-build -w "$HC" --allow-newer=base,primitive --ghc-options=\""${HC_FLAGS}"\" --enable-benchmarks --disable-tests -j5 all
 
     for benchmark in aeson-benchmark-typed aeson-benchmark-micro aeson-benchmark-map aeson-benchmark-json-parse aeson-benchmark-foldable aeson-benchmark-escape aeson-benchmark-dates aeson-benchmark-compare-with-json aeson-benchmark-compare aeson-benchmark-auto-compare aeson-benchmark-aeson-parse aeson-benchmark-aeson-encode;
     do
-        cabal new-run ${CABAL_SETTINGS} "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_NAMES[$i]}.${benchmark}.csv"
+        cabal--store-dir=$STORE_DIR new-run -w "$HC" --allow-newer=base,primitive --ghc-options=\""${HC_FLAGS}"\" --enable-benchmarks --disable-tests \
+            "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_NAMES[$i]}.${benchmark}.csv"
     done
 done
 

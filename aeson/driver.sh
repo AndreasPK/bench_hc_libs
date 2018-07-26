@@ -11,7 +11,7 @@ do
     esac
 
 
-    mkdir "aeson_${compiler}"
+    mkdir "aeson_${compiler}" -p
     cp bench.sh "aeson_${compiler}"
     cp cabal.project "aeson_${compiler}"
     cd "aeson_${compiler}"
