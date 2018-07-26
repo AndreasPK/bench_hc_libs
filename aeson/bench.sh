@@ -62,11 +62,11 @@ do
     FLAG_VARIANT="${FLAG_NAMES[$i]}"
     STORE_DIR=~/.store_"${FLAG_VARIANT}"
     echo "Flags ${FLAG_VARIANT} - ${HC_FLAGS}"
-    cabal --store-dir=$STORE_DIR new-build -w "$HC" --allow-newer=base,primitive --ghc-options=\""${HC_FLAGS}"\" --enable-benchmarks --disable-tests -j5 all
+    cabal --store-dir=$STORE_DIR new-build -w "$HC" --allow-newer=base,primitive --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests -j5 all
 
     for benchmark in aeson-benchmark-typed aeson-benchmark-micro aeson-benchmark-map aeson-benchmark-json-parse aeson-benchmark-foldable aeson-benchmark-escape aeson-benchmark-dates aeson-benchmark-compare-with-json aeson-benchmark-compare aeson-benchmark-auto-compare aeson-benchmark-aeson-parse aeson-benchmark-aeson-encode;
     do
-        cabal --store-dir=$STORE_DIR new-run -w "$HC" --allow-newer=base,primitive --ghc-options=\""${HC_FLAGS}"\" --enable-benchmarks --disable-tests \
+        cabal --store-dir=$STORE_DIR new-run -w "$HC" --allow-newer=base,primitive --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
             "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_NAMES[$i]}.${benchmark}.csv"
     done
 done
