@@ -63,7 +63,7 @@ do
     HC_FLAGS=${FLAG_STRS[$i]}
     echo "Flags ${FLAG_NAMES[$i]} - ${HC_FLAGS}"
     cabal new-configure all
-    CABAL_SETTINGS="-w "$HC" --allow-newer=base,primitive --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests"
+    CABAL_SETTINGS="-w \"$HC\" --allow-newer=base,primitive --ghc-options=\"${HC_FLAGS}\" --enable-benchmarks --disable-tests"
     cabal new-build all ${CABAL_SETTINGS}
 
     for benchmark in aeson-benchmark-typed aeson-benchmark-micro aeson-benchmark-map aeson-benchmark-json-parse aeson-benchmark-foldable aeson-benchmark-escape aeson-benchmark-dates aeson-benchmark-compare-with-json aeson-benchmark-compare aeson-benchmark-auto-compare aeson-benchmark-aeson-parse aeson-benchmark-aeson-encode;
