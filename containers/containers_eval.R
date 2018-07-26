@@ -6,18 +6,18 @@ gm_mean = function(x, na.rm=TRUE){
   exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
 }
 c_allCalls.all.set-operations-set.csv
-resultPath <- "remoteResults/benchResultsXeon1/"
+resultPath <- "remoteResults/benchResultsBen4/"
 compiler <- "c_allCalls"
 
-benchmarks = c("set-operations-set")
+benchmarks = c("intmap-benchmarks", "intset-benchmarks", "lookupge-intmap", "lookupge-map", "map-benchmarks",
+               "sequence-benchmarks", "set-benchmarks", "set-operations-intmap", "set-operations-intset", "set-operations-map",
+               "set-operations-set")
+
 variants <- c("all",  "vanilla", "some", "none")
 
 csvresults <- list()
 for(variant in variants) {
-#for(variant in c("aeson_adjusted",  "aeson_allCalls",  "aeson_head",  "aeson_noCalls",  "aeson_someCalls",  "aeson_vanilla")) {
-   
   speedups <- list()
-  benchmark <- "aeson-benchmark-typed"
   for (benchmark in benchmarks) {
     print(variant)
     print(benchmark)

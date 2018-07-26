@@ -1,3 +1,4 @@
 containers/c_*
 aeson/aeson_*
 dist-newstyle/
+*/benchResults/

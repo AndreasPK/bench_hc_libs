@@ -6,7 +6,7 @@ gm_mean = function(x, na.rm=TRUE){
   exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
 }
 
-resultPath <- "remoteResults/benchResultsXeon1/"
+resultPath <- "remoteResults/benchResultsXeon3/"
 compiler <- "allCalls"
 
 benchmarks = c("aeson-benchmark-typed", "aeson-benchmark-micro", "aeson-benchmark-map", "aeson-benchmark-foldable",
@@ -50,11 +50,12 @@ for(vi in 1:length(variants)) {
   }
 }
 geoMean_overall <- apply(FUN = gm_mean, X = meanSpeedups, MARGIN = c(2))
-apply(FUN = gm_mean, X = meanSpeedups[,c(1,3,4)], MARGIN = c(1))
 
-rbind(meanSpeedups, geoMean_overall)
+meanSpeedups <- rbind(meanSpeedups, geoMean_overall)
 
 meanSpeedups
 heatmap(meanSpeedups)
+
+sort(apply(FUN = gm_mean, X = meanSpeedups, MARGIN = c(2))) * 100
 
 
