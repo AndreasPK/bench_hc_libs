@@ -41,7 +41,7 @@ cabal new-update
 
 DIR_NAME=${PWD##*/}
 COMPILER_NAME=${DIR_NAME#c_}
-BENCHMARKS="bench-speed bench-memory"
+BENCHMARKS="bench-speed"
 # STORE_DIR=~/.store_${COMPILER_NAME}
 # STORE="--store-dir=${STORE_DIR} "
 for i in {0..3};
@@ -56,6 +56,7 @@ do
     for benchmark in ${BENCHMARKS};
     do
         echo "Benchmark: $benchmark"
-        cabal new-run  "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_NAMES[$i]}.${benchmark}.csv"
+        cabal --store-dir="$STORE_DIR" new-run --builddir="$BUILD_DIR" -w "$HC" --allow-newer=base,primitive --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
+            "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_NAMES[$i]}.${benchmark}.csv"
     done
 done
