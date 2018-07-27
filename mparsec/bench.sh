@@ -40,16 +40,18 @@ cabal new-update
 #Build with different flags
 
 DIR_NAME=${PWD##*/}
-COMPILER_NAME=${DIR_NAME#aeson_}
+COMPILER_NAME=${DIR_NAME#c_}
 BENCHMARKS="bench-speed bench-memory"
 # STORE_DIR=~/.store_${COMPILER_NAME}
 # STORE="--store-dir=${STORE_DIR} "
 for i in {0..3};
 do
-    HC_FLAGS=${FLAG_STRS[$i]}
-    echo "Configure for ${FLAG_NAMES[$i]} - ${HC_FLAGS}"
-    cabal new-configure all -w "$HC" --allow-newer=base,primitive,criterion,containers,vector --ghc-options="$HC_FLAGS" --enable-benchmarks
-    cabal new-build all -j4
+    HC_FLAGS="${FLAG_STRS[$i]}"
+    FLAG_VARIANT="${FLAG_NAMES[$i]}"
+    STORE_DIR=~/.store_"${FLAG_VARIANT}"
+    BUILD_DIR=d-"$FLAG_VARIANT"
+    echo "Configuration ${FLAG_NAMES[$i]} - ${HC_FLAGS}"
+    cabal --store-dir="$STORE_DIR" new-build --builddir="$BUILD_DIR" -w "$HC" --allow-newer=base,primitive --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests -j5 all
 
     for benchmark in ${BENCHMARKS};
     do
