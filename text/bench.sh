@@ -37,7 +37,7 @@ cabal new-update
 
 DIR_NAME=${PWD##*/}
 COMPILER_NAME=${DIR_NAME#c_}
-BENCHMARKS="bench-speed"
+BENCHMARKS="text-benchmarks"
 for i in {0..3};
 do
     HC_FLAGS="${FLAG_STRS[$i]}"
