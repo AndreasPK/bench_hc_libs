@@ -55,18 +55,19 @@ cp aeson/benchmarks/json-data . -r
 cabal new-update
 
 DIR_NAME=${PWD##*/}
-COMPILER_NAME=${DIR_NAME#aeson_}
+COMPILER_NAME=${DIR_NAME#c_}
 for i in {0..3};
 do
     HC_FLAGS="${FLAG_STRS[$i]}"
     FLAG_VARIANT="${FLAG_NAMES[$i]}"
     STORE_DIR=~/.store_"${FLAG_VARIANT}"
+    BUILD_DIR=d-"$FLAG_VARIANT"
     echo "Flags ${FLAG_VARIANT} - ${HC_FLAGS}"
-    cabal --store-dir=$STORE_DIR new-build -w "$HC" --allow-newer=base,primitive --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests -j5 all
+    cabal --store-dir="$STORE_DIR" new-build --builddir="$BUILD_DIR" -w "$HC" --allow-newer=base,primitive --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests -j5 all
 
     for benchmark in aeson-benchmark-typed aeson-benchmark-micro aeson-benchmark-map aeson-benchmark-json-parse aeson-benchmark-foldable aeson-benchmark-escape aeson-benchmark-dates aeson-benchmark-compare-with-json aeson-benchmark-compare aeson-benchmark-auto-compare aeson-benchmark-aeson-parse aeson-benchmark-aeson-encode;
     do
-        cabal --store-dir=$STORE_DIR new-run -w "$HC" --allow-newer=base,primitive --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
+        cabal --store-dir="$STORE_DIR" new-run --builddir="$BUILD_DIR" -w "$HC" --allow-newer=base,primitive --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
             "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_NAMES[$i]}.${benchmark}.csv"
     done
 done

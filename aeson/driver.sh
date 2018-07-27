@@ -11,10 +11,10 @@ do
     esac
 
 
-    mkdir "aeson_${compiler}" -p
-    cp bench.sh "aeson_${compiler}"
-    cp cabal.project "aeson_${compiler}"
-    cd "aeson_${compiler}"
+    mkdir "c_${compiler}" -p
+    cp bench.sh "c_${compiler}"
+    cp cabal.project "c_${compiler}"
+    cd "c_${compiler}"
     bash bench.sh "$HC"
     cd ..
 done
