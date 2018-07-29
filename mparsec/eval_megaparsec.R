@@ -7,9 +7,8 @@ library(nortest)
 gm_mean = function(x, na.rm=TRUE){
   exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
 }
-c_allCalls.all.set-operations-set.csv
-resultPath <- "remoteResults/benchResultsBen2/"
-compiler <- "c_allCalls"
+resultPath <- "remoteResults/xeon1/"
+compiler <- "allCalls"
 
 benchmarks = c("bench-speed")
 variants <- c("all",  "vanilla", "some", "none")
@@ -41,9 +40,36 @@ for(variant in variants) {
     speedups[[variant]][[benchmark]] <- speedup
   }
 }
-x <- unlist(speedups)
+x <- unlist(speedups$all)
+#ben1 <- x
+#ben2 <- x
+#xeon1 <- x
+xeon2 <- x
+
+plot(ben1, col=2, ylim=c(0.85,1.15))
+points(ben2, col=1)
+points(xeon1, col=3)
+points(xeon2, col=4)
+
+xeon <- (xeon1 + xeon2) / 2
+plot(xeon, ylim=c(0.85,1.15))
+
+ben <- (ben1 + ben2)/2
+plot(ben, col = 1, ylim=c(0.85,1.15))
+points(ben1, col=2)
+points(ben2, col=3)
+sort(ben)[1:10]
+sort(xeon)[1:10]
+
+gm_mean(xeon)
+gm_mean(ben)
+
+
+abline(a = 1, b=0)
 y = rnorm(100)
 saphiro.te
+rev(sort(x))
+plot(x)
 plot(sort(x))
 qqnorm(x)
 qqline(x)
@@ -61,6 +87,7 @@ for(vi in 1:length(variants)) {
 }
 geoMean_overall <- apply(FUN = gm_mean, X = meanSpeedups, MARGIN = c(2))
 
+speedups
 meanSpeedups <- rbind(meanSpeedups, geoMean_overall)
 
 meanSpeedups
