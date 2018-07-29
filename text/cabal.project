@@ -10,9 +10,11 @@ packages:
     text/
     text/benchmarks/
     primitive/
---    vector-algorithms/
+    vector-algorithms/
 
+packages *
+    tests: False
 
+allow-newer:async,transformers,binary,Glob,base,primitive,criterion,vector,containers,text
 
-allow-newer:base,primitive,criterion
 

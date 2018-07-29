@@ -31,6 +31,12 @@ if [ ! -d "vector-algorithms" ]; then
   sed "s/Odph/O2/" -i vector-algorithms/vector-algorithms.cabal
 fi
 
+if [ ! -d "tests" ]; then
+  git clone https://github.com/bos/text-test-data.git
+  mkdir tests
+  mv text-test-data tests/
+fi
+
 cabal new-update
 
 #Build with different flags
