@@ -1,4 +1,14 @@
 
+if [ ! -d "tests" ]; then
+  git clone https://github.com/bos/text-test-data.git
+  mkdir tests
+  mv text-test-data tests/
+fi
+
+cd tests/text-test-data/
+make
+cd ../..
+
 for compiler in allCalls;
 #for compiler in adjusted  allCalls  head  noCalls  someCalls  vanilla
 do
