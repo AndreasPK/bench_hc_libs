@@ -12,9 +12,6 @@ packages:
     primitive/
     vector-algorithms/
 
-packages *
-    tests: False
-
 allow-newer:async,transformers,binary,Glob,base,primitive,criterion,vector,containers,text
 
 
