@@ -12,6 +12,9 @@ packages:
 --    primitive/
 --    vector-algorithms/
 
+package hexpat
+    flags: +bundle
+
 allow-newer:async,transformers,binary,Glob,base,primitive,criterion,vector,containers,text,stm
 
 
