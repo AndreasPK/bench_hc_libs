@@ -3,7 +3,7 @@
 #Build 5 variants of GHC in folder $TREE_DIR
 #All five builds will run in parallel.
 TREE_DIR=~/trees
-THREADS="-j2" # Use "-j2" if you have 8+ cores
+THREADS="-j3" # Use "-j2" if you have 8+ cores
 
 
 mkdir -p ${TREE_DIR}
@@ -28,7 +28,7 @@ BUILD_SPHINX_PDF   = NO
 BUILD_MAN          = NO
 ' >> mk/build.mk
 ./boot
-./configure
+./configure --enable-tarballs-autodownload
 make ${THREADS} &
 
 git clone --recursive git://git.haskell.org/ghc.git ${TREE_DIR}/vanilla
@@ -53,8 +53,8 @@ BUILD_SPHINX_PDF   = NO
 BUILD_MAN          = NO
 ' >> mk/build.mk
 ./boot
-./configure
-make ${THREADS} &
+./configure --enable-tarballs-autodownload
+make ${THREADS}
 
 git clone --recursive git://git.haskell.org/ghc.git ${TREE_DIR}/adjusted
 
@@ -78,7 +78,7 @@ BUILD_SPHINX_PDF   = NO
 BUILD_MAN          = NO
 ' >> mk/build.mk
 ./boot
-./configure
+./configure --enable-tarballs-autodownload
 make ${THREADS} &
 
 git clone --recursive git://git.haskell.org/ghc.git ${TREE_DIR}/allCalls
@@ -103,8 +103,8 @@ BUILD_SPHINX_PDF   = NO
 BUILD_MAN          = NO
 ' >> mk/build.mk
 ./boot
-./configure
-make ${THREADS} &
+./configure --enable-tarballs-autodownload
+make ${THREADS}
 
 git clone --recursive git://git.haskell.org/ghc.git ${TREE_DIR}/someCalls
 
@@ -128,7 +128,7 @@ BUILD_SPHINX_PDF   = NO
 BUILD_MAN          = NO
 ' >> mk/build.mk
 ./boot
-./configure
+./configure --enable-tarballs-autodownload
 make ${THREADS} &
 
 git clone --recursive git://git.haskell.org/ghc.git ${TREE_DIR}/noCalls
@@ -153,7 +153,7 @@ BUILD_SPHINX_PDF   = NO
 BUILD_MAN          = NO
 ' >> mk/build.mk
 ./boot
-./configure
+./configure --enable-tarballs-autodownload
 make ${THREADS} &
 
 wait
