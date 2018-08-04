@@ -5,6 +5,11 @@
 TREE_DIR=~/trees2
 THREADS="-j2" # Use "-j2" if you have 8+ cores
 
+if [[ $* == *--no-clean* ]]; then
+    CLEAN=""
+else
+    CLEAN=git clean -fd
+fi
 
 mkdir -p ${TREE_DIR}
 
@@ -13,7 +18,7 @@ git clone --recursive git://git.haskell.org/ghc.git ${TREE_DIR}/head
 cd ${TREE_DIR}/head
 git checkout 120cc9f8
 git submodule update --init --recursive
-git clean -fd
+${CLEAN}
 echo 'SRC_HC_OPTS        = -O -H64m
 GhcStage1HcOpts    = -O
 GhcStage2HcOpts    = -O2
@@ -38,7 +43,7 @@ git remote add vanilla https://github.com/AndreasPK/ghc.git
 git fetch vanilla
 git checkout vanilla/layoutOpt
 git submodule update --init --recursive
-git clean -fd
+${CLEAN}
 echo 'SRC_HC_OPTS        = -O -H64m
 GhcStage1HcOpts    = -O
 GhcStage2HcOpts    = -O2  -fno-new-blocklayout  -fvanilla-blocklayout
@@ -63,7 +68,7 @@ git remote add adjusted https://github.com/AndreasPK/ghc.git
 git fetch adjusted
 git checkout adjusted/layoutOpt
 git submodule update --init --recursive
-git clean -fd
+${CLEAN}
 echo 'SRC_HC_OPTS        = -O -H64m
 GhcStage1HcOpts    = -O
 GhcStage2HcOpts    = -O2  -fno-new-blocklayout  -fno-vanilla-blocklayout
@@ -88,7 +93,7 @@ git remote add allCalls https://github.com/AndreasPK/ghc.git
 git fetch allCalls
 git checkout allCalls/layoutOpt
 git submodule update --init --recursive
-git clean -fd
+${CLEAN}
 echo 'SRC_HC_OPTS        = -O -H64m
 GhcStage1HcOpts    = -O
 GhcStage2HcOpts    = -O2  -fnew-blocklayout     -fvanilla-blocklayout     -fcfg-weights=callWeight=310
@@ -113,7 +118,7 @@ git remote add someCalls https://github.com/AndreasPK/ghc.git
 git fetch someCalls
 git checkout someCalls/layoutOpt
 git submodule update --init --recursive
-git clean -fd
+${CLEAN}
 echo 'SRC_HC_OPTS        = -O -H64m
 GhcStage1HcOpts    = -O
 GhcStage2HcOpts    = -O2  -fnew-blocklayout     -fvanilla-blocklayout     -fcfg-weights=callWeight=300
@@ -138,7 +143,7 @@ git remote add noCalls https://github.com/AndreasPK/ghc.git
 git fetch noCalls
 git checkout noCalls/layoutOpt
 git submodule update --init --recursive
-git clean -fd
+${CLEAN}
 echo 'SRC_HC_OPTS        = -O -H64m
 GhcStage1HcOpts    = -O
 GhcStage2HcOpts    = -O2  -fnew-blocklayout     -fvanilla-blocklayout     -fcfg-weights=callWeight=-3000
