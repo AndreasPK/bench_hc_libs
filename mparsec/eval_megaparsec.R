@@ -7,7 +7,7 @@ library(nortest)
 gm_mean = function(x, na.rm=TRUE){
   exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
 }
-resultPath <- "remoteResults/xeon1/"
+resultPath <- "remoteResults/ben6/"
 compiler <- "allCalls"
 
 benchmarks = c("bench-speed")
@@ -16,7 +16,6 @@ variants <- c("all",  "vanilla", "some", "none")
 csvresults <- list()
 for(variant in variants) {
   speedups <- list()
-  benchmark <- "aeson-benchmark-typed"
   for (benchmark in benchmarks) {
     print(variant)
     print(benchmark)
@@ -93,6 +92,6 @@ meanSpeedups <- rbind(meanSpeedups, geoMean_overall)
 meanSpeedups
 heatmap(meanSpeedups)
 
-sort(apply(FUN = gm_mean, X = meanSpeedups, MARGIN = c(2))) * 100
+(sort(apply(FUN = gm_mean, X = meanSpeedups, MARGIN = c(2))) * 100) - 100
 
 

@@ -4,3 +4,5 @@ dist-newstyle/
 */benchResults/
 */c_*/
 .Rproj.user
+.Rhistory
+.RData

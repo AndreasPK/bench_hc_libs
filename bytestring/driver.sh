@@ -2,6 +2,8 @@
 for compiler in allCalls;
 #for compiler in adjusted  allCalls  head  noCalls  someCalls  vanilla
 do
+    echo "Not finished"
+    exit
     unameOut="$(uname -s)"
     case $unameOut in
     MINGW*)

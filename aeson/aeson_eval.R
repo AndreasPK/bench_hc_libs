@@ -6,12 +6,12 @@ gm_mean = function(x, na.rm=TRUE){
   exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
 }
 
-resultPath <- "remoteResults/benchResultsXeon3/"
+resultPath <- "remoteResults/xeon1/"
 compiler <- "allCalls"
 
 benchmarks = c("aeson-benchmark-typed", "aeson-benchmark-micro", "aeson-benchmark-map", "aeson-benchmark-foldable",
                "aeson-benchmark-escape", "aeson-benchmark-dates", "aeson-benchmark-compare-with-json", "aeson-benchmark-compare", "aeson-benchmark-auto-compare")
-variants <- c("all",  "vanilla", "some", "none")
+variants <- c("all",  "vanilla", "none") #"some"
 
 csvresults <- list()
 for(variant in variants) {
@@ -27,7 +27,6 @@ for(variant in variants) {
     names(csvresults[[benchmark]][[variant]]) <- rownames(csv)
   }
 }
-csvresults
 
 speedups <- list()
 for(variant in variants) {

@@ -5,10 +5,11 @@
 gm_mean = function(x, na.rm=TRUE){
   exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
 }
-c_allCalls.all.set-operations-set.csv
-resultPath <- "remoteResults/benchResultsBen4/"
-compiler <- "c_allCalls"
-
+#c_allCalls.all.set-operations-set.csv
+resultPath <- "remoteResults/ben1/"
+#Use _c prefix for older result sets:
+#compiler <- "c_allCalls"
+compiler <- "allCalls"
 benchmarks = c("intmap-benchmarks", "intset-benchmarks", "lookupge-intmap", "lookupge-map", "map-benchmarks",
                "sequence-benchmarks", "set-benchmarks", "set-operations-intmap", "set-operations-intset", "set-operations-map",
                "set-operations-set")
@@ -59,6 +60,6 @@ meanSpeedups <- rbind(meanSpeedups, geoMean_overall)
 meanSpeedups
 heatmap(meanSpeedups)
 
-sort(apply(FUN = gm_mean, X = meanSpeedups, MARGIN = c(2))) * 100
+(sort(apply(FUN = gm_mean, X = meanSpeedups, MARGIN = c(2))) * 100) - 100
 
 
