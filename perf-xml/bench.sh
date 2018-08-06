@@ -46,14 +46,11 @@ do
     echo "Configuration ${FLAG_NAMES[$i]} - ${HC_FLAGS}"
     cabal --store-dir="$STORE_DIR" new-build --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests -j5 all
 
-    for benchmark in ${BENCHMARKS};
+    for benchmark in ${BENCHMARKS}
     do
         echo "Benchmark: $benchmark"
+        #Use -L15 since these are pretty noisy
         cabal --store-dir="$STORE_DIR" new-run --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
-            generate
-        mv in.xml xml
-
-        cabal --store-dir="$STORE_DIR" new-run --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
-            "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_NAMES[$i]}.${benchmark}.csv"
+            "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_NAMES[$i]}.${benchmark}.csv" -L15
     done
 done

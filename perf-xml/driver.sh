@@ -8,7 +8,7 @@ do
     MINGW*)
         HC="C:\\ghc\\msys64\\home\\Andi\\trees\\${compiler}\\inplace\\bin\\ghc-stage2.exe" ;;
     *)
-        HC=~/trees4/${compiler}/inplace/bin/ghc-stage2 ;;
+        HC=~/trees/${compiler}/inplace/bin/ghc-stage2 ;;
     esac
 
     mkdir "c_${compiler}" -p

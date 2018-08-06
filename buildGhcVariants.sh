@@ -2,7 +2,7 @@
 
 #Build 5 variants of GHC in folder $TREE_DIR
 #All five builds will run in parallel.
-TREE_DIR=~/trees2
+TREE_DIR=~/trees
 THREADS="-j2" # Use "-j2" if you have 8+ cores
 
 if [[ $* == *--no-clean* ]]; then

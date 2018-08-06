@@ -6,7 +6,7 @@ mkdir -p "$LOG_DIR"
 if [ -z ${1} ]; then
     echo "Please specify a compiler: $0 <HC>"
     #exit
-    HC="C:\\ghc\\msys64\\home\\Andi\\trees5\\vanilla\\inplace\\bin\\ghc-stage2.exe"
+    HC="C:\\ghc\\msys64\\home\\Andi\\trees\\vanilla\\inplace\\bin\\ghc-stage2.exe"
 else
     HC="$1"
 fi
