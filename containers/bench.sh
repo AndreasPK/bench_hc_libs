@@ -17,6 +17,8 @@ fi
 if [ ! -d "containers" ]; then
   git clone http://github.com/haskell/containers.git
   sed "s/name: containers/name: containers-bench/" containers/containers.cabal  -i
+  sed "s/1.3/1.6/" containers/containers.cabal  -i
+
 fi
 #cd aeson
 #cabal new-update
@@ -50,12 +52,12 @@ do
     STORE_DIR=~/.store_"${FLAG_VARIANT}"
     BUILD_DIR=d-"$FLAG_VARIANT"
     echo "Flags ${FLAG_VARIANT} - ${HC_FLAGS}"
-    cabal --store-dir="$STORE_DIR" new-build --builddir="$BUILD_DIR" -w "$HC" --allow-newer=base,primitive --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests -j5 all
+    cabal --store-dir="$STORE_DIR" new-build --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests -j5 all
 
     for benchmark in ${BENCHMARKS};
     do
         echo "Benchmark: $benchmark"
-        cabal --store-dir="$STORE_DIR" new-run --builddir="$BUILD_DIR" -w "$HC" --allow-newer=base,primitive --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
+        cabal --store-dir="$STORE_DIR" new-run --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
             "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_NAMES[$i]}.${benchmark}.csv"
     done
 done
