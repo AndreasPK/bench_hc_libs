@@ -8,9 +8,9 @@ repository head.hackage
 
 packages:
     containers/
-    primitive/
-    vector-algorithms/
+--    primitive/
+--    vector-algorithms/
 
 
-allow-newer:async,transformers,binary,Glob
+allow-newer:async,transformers,binary,Glob,citerion,base,primitive,vector,hastache,statistics,vector-algorithms,containers,text
 
