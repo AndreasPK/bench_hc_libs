@@ -67,9 +67,22 @@ do
 
     for benchmark in aeson-benchmark-typed aeson-benchmark-micro aeson-benchmark-map aeson-benchmark-json-parse aeson-benchmark-foldable aeson-benchmark-escape aeson-benchmark-dates aeson-benchmark-compare-with-json aeson-benchmark-compare aeson-benchmark-auto-compare aeson-benchmark-aeson-parse aeson-benchmark-aeson-encode;
     do
+        echo $benchmark
         cabal --store-dir="$STORE_DIR" new-run --builddir="$BUILD_DIR" -w "$HC" --allow-newer=base,primitive --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
             "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_NAMES[$i]}.${benchmark}.csv"
     done
+done
+
+HC_FLAGS=""
+FLAG_VARIANT="head"
+STORE_DIR=~/.store_"${FLAG_VARIANT}"
+BUILD_DIR=d-"$FLAG_VARIANT"
+HC="$HOME/trees/head/inplace/bin/ghc-stage2"
+for benchmark in ${BENCHMARKS};
+do
+    echo "Benchmark: $benchmark"
+    cabal --store-dir="$STORE_DIR" new-run --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
+        "exe:$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_VARIANT}.${benchmark}.csv"
 done
 
 cd

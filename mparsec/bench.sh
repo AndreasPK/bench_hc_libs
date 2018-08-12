@@ -54,3 +54,15 @@ do
             "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_NAMES[$i]}.${benchmark}.csv"
     done
 done
+
+HC_FLAGS=""
+FLAG_VARIANT="head"
+STORE_DIR=~/.store_"${FLAG_VARIANT}"
+BUILD_DIR=d-"$FLAG_VARIANT"
+HC="$HOME/trees/head/inplace/bin/ghc-stage2"
+for benchmark in ${BENCHMARKS};
+do
+    echo "Benchmark: $benchmark"
+    cabal --store-dir="$STORE_DIR" new-run --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
+        "exe:$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_VARIANT}.${benchmark}.csv"
+done

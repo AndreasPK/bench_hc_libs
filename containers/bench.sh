@@ -45,19 +45,27 @@ COMPILER_NAME=${DIR_NAME#c_}
 BENCHMARKS="set-operations-set set-operations-map set-operations-intset set-operations-intmap
             set-benchmarks sequence-benchmarks map-benchmarks lookupge-map lookupge-intmap
             intset-benchmarks intmap-benchmarks"
-for i in {0..3};
-do
-    HC_FLAGS="${FLAG_STRS[$i]}"
-    FLAG_VARIANT="${FLAG_NAMES[$i]}"
-    STORE_DIR=~/.store_"${FLAG_VARIANT}"
-    BUILD_DIR=d-"$FLAG_VARIANT"
-    echo "Flags ${FLAG_VARIANT} - ${HC_FLAGS}"
-    cabal --store-dir="$STORE_DIR" new-build --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests -j5 all
 
-    for benchmark in ${BENCHMARKS};
+for benchmark in ${BENCHMARKS};
+do
+
+    for i in {0..3};
     do
-        echo "Benchmark: $benchmark"
+        HC_FLAGS="${FLAG_STRS[$i]}"
+        FLAG_VARIANT="${FLAG_NAMES[$i]}"
+        STORE_DIR=~/.store_"${FLAG_VARIANT}"
+        BUILD_DIR=d-"$FLAG_VARIANT"
+        echo "Benchmark: $benchmark - Flags ${FLAG_VARIANT} - ${HC_FLAGS}"
+
         cabal --store-dir="$STORE_DIR" new-run --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
             "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_NAMES[$i]}.${benchmark}.csv"
     done
+
+    #Benchmark against head
+    HC_FLAGS=""
+    STORE_DIR=~/.store_head
+    BUILD_DIR=d-head
+    cabal --store-dir="$STORE_DIR" new-run --builddir="$BUILD_DIR" -w "$HOME/trees/head/inplace/bin/ghc-stage2" --enable-benchmarks --disable-tests \
+        "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_NAMES[$i]}.${benchmark}.csv"
+
 done
