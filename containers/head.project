@@ -7,12 +7,11 @@ repository head.hackage
    key-threshold: 3
 
 packages:
-    aeson/
-    json-builder/
-    -- primitive/ from hackage head
-    aeson/benchmarks/aeson-benchmarks.cabal
+    c_allCalls/containers/
+
+with-compiler: ~\trees\head\inplace\bin\ghc-stage2.exe
+tests: False
+benchmarks: True
 
 allow-newer:async,transformers,binary,Glob,citerion,base,primitive,vector,hastache,statistics,vector-algorithms,containers,text
-
-
 

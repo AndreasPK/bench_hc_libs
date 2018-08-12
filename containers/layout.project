@@ -7,12 +7,16 @@ repository head.hackage
    key-threshold: 3
 
 packages:
-    aeson/
-    json-builder/
-    -- primitive/ from hackage head
-    aeson/benchmarks/aeson-benchmarks.cabal
+    containers/
+--    primitive/
+--    vector-algorithms/
 
 allow-newer:async,transformers,binary,Glob,citerion,base,primitive,vector,hastache,statistics,vector-algorithms,containers,text
 
+with-compiler: C:\ghc\msys64\home\Andi\ghc_layout\inplace\bin\ghc-stage2.exe
 
+package *
+    ghc-options: -fnew-blocklayout -fcfg-weights=callWeight=-10
 
+package containers-bench
+    ghc-options: -fnew-blocklayout -fcfg-weights=callWeight=-10 -ddump-asm -ddump-opt-cmm -ddump-simpl -ddump-cfg-weights -ddump-to-file -dsuppress-all

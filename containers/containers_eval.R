@@ -6,7 +6,7 @@ gm_mean = function(x, na.rm=TRUE){
   exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
 }
 #c_allCalls.all.set-operations-set.csv
-resultPath <- "remoteResults/ben1/"
+resultPath <- "results/sky1_r3/"
 #Use _c prefix for older result sets:
 #compiler <- "c_allCalls"
 compiler <- "allCalls"
@@ -15,6 +15,12 @@ benchmarks = c("intmap-benchmarks", "intset-benchmarks", "lookupge-intmap", "loo
                "set-operations-set")
 
 variants <- c("all",  "vanilla", "some", "none")
+variants <- c("all",  "vanilla", "none")
+
+h1 <- read.csv("results/xeon2_r3/head.lookupge-intmap.csv", header = TRUE)
+v1 <- read.csv("results/xeon2_r3/allCalls.none.lookupge-intmap.csv", header = TRUE)
+
+gm_mean((h1/v1)[,2])
 
 csvresults <- list()
 for(variant in variants) {
@@ -55,11 +61,10 @@ for(vi in 1:length(variants)) {
 }
 geoMean_overall <- apply(FUN = gm_mean, X = meanSpeedups, MARGIN = c(2))
 
-meanSpeedups <- rbind(meanSpeedups, geoMean_overall)
-
-meanSpeedups
-heatmap(meanSpeedups)
+withSummary <- rbind(meanSpeedups, geoMean_overall)
+withSummary
+heatmap(withSummary)
 
 (sort(apply(FUN = gm_mean, X = meanSpeedups, MARGIN = c(2))) * 100) - 100
-
-
+n3 <- withSummary[1,1]
+gm_mean(c(n1,n2,n3))
