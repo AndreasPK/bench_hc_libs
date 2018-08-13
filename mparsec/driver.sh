@@ -3,17 +3,6 @@ for compiler in allCalls;
 #for compiler in adjusted  allCalls  head  noCalls  someCalls  vanilla
 do
 
-#
-    name=benchResults
-    if [[ -e $name ]] ; then
-        i=0
-        while [[ -e $name-$i ]] ; do
-            let i++
-        done
-        name=$name-$i
-        mv benchResults "$name"
-    fi
-
     unameOut="$(uname -s)"
     case $unameOut in
     MINGW*)
