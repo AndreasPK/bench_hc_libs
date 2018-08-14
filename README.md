@@ -57,3 +57,24 @@ Higher is better
 
 Entries with NA were not measured because of time constraints.
 
+### Speedup Result - Commit 9eb833cf
+
+* Rolled back the Cmm changes.
+* Assign weigths independently of branch order in Cmm
+* Invert conditions after code layout to eliminate jumps where possible.
+* Do a simply static analysis on the CFG to optimize weights.
+
+Higher is better, if two results are listed the first is without calls considered the second with all calls considered.
+
+| Library       | Sandy Bridge (Linux) | Haswell (Linux) | Skylake (Win) |
+| ------------- |------------:  | ----:             | -----: |
+| aeson         | NA            | +2.3%/-0%         |   +1.2%/+1.0%
+| containers    | +1.4%/+1.2%   | +1.1%/+1.7%       |   +1.7%/+1.0%
+| megaparsec    | +3.2%/+3.6%   | +13.6%/+13.7% (1  |   +8.0%/+6.6%
+| text          | +3.0%/+3.0%   | NA                |   NA
+| Vector *2     | +2.5%/+3.6%   | +2.5%/+2.9%       |   +1.3%/3.8%
+| nofib | NA
+
+* (1 Probably a measurement error because of background noise.
+
+NA: Net yet measured (time, doesn't build easily on the platform, ...)
