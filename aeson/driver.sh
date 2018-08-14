@@ -66,10 +66,10 @@ do
 
     FLAG_NAMES=('vanilla' 'all' 'some' 'none')
     FLAG_STRS=('-fno-new-blocklayout -fvanilla-blocklayout' '-fnew-blocklayout -fcfg-weights=callWeight=310' '-fnew-blocklayout -fcfg-weights=callWeight=300' '-fnew-blocklayout -fcfg-weights=callWeight=-900')
-
+    BENCHMARKS="aeson-benchmark-typed aeson-benchmark-micro aeson-benchmark-map aeson-benchmark-json-parse aeson-benchmark-foldable aeson-benchmark-escape aeson-benchmark-dates aeson-benchmark-compare-with-json aeson-benchmark-compare aeson-benchmark-auto-compare aeson-benchmark-aeson-parse aeson-benchmark-aeson-encode"
     cp aeson/benchmarks/json-data . -r
 
-    cabal new-update
+#    cabal new-update
 
     DIR_NAME=${PWD##*/}
     COMPILER_NAME=${DIR_NAME#c_}
