@@ -45,12 +45,12 @@ do
     STORE_DIR=~/.store_"${FLAG_VARIANT}"
     BUILD_DIR=d-"$FLAG_VARIANT"
     echo "Configuration ${FLAG_NAMES[$i]} - ${HC_FLAGS}"
-    cabal --store-dir="$STORE_DIR" new-build --builddir="$BUILD_DIR" -w "$HC" --allow-newer=base,primitive --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests -j5 all
+    cabal --store-dir="$STORE_DIR" new-build --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests -j5 all
 
     for benchmark in ${BENCHMARKS};
     do
         echo "Benchmark: $benchmark"
-        cabal --store-dir="$STORE_DIR" new-run --builddir="$BUILD_DIR" -w "$HC" --allow-newer=base,primitive --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
+        cabal --store-dir="$STORE_DIR" new-run --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
             "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_NAMES[$i]}.${benchmark}.csv"
     done
 done
@@ -64,5 +64,5 @@ for benchmark in ${BENCHMARKS};
 do
     echo "Benchmark: $benchmark"
     cabal --store-dir="$STORE_DIR" new-run --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
-        "exe:$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_VARIANT}.${benchmark}.csv"
+        "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_VARIANT}.${benchmark}.csv"
 done
