@@ -68,13 +68,14 @@ Higher is better, if two results are listed the first is without calls considere
 
 | Library       | Sandy Bridge (Linux) | Haswell (Linux) | Skylake (Win) |
 | ------------- |------------:  | ----:             | -----: |
-| aeson         | NA            | +2.3%/-0%         |   +1.2%/+1.0%
+| aeson         | +2.6%/+2.8%   | +2.3%/-0%         |   +1.2%/+1.0%
 | containers    | +1.4%/+1.2%   | +1.1%/+1.7%       |   +1.7%/+1.0%
-| megaparsec    | +3.2%/+3.6%   | +13.6%/+13.7% (1  |   +8.0%/+6.6%
+| megaparsec    | +3.2%/+3.6%   | +13.6%/+13.7% 1)  |   +8.0%/+6.6%
+| perf-xml 2)   | +0.2%/+0.0%   |         | +1.1%/+0.8%
 | text          | +3.0%/+3.0%   | NA                |   NA
 | Vector *2     | +2.5%/+3.6%   | +2.5%/+2.9%       |   +1.3%/3.8%
 | nofib | NA
 
-* (1 Probably a measurement error because of background noise.
-
-NA: Net yet measured (time, doesn't build easily on the platform, ...)
+* 1) Probably a measurement error because of background noise.
+* 2) https://github.com/haskell-perf/xml
+* NA: Net yet measured (time, doesn't build easily on the platform, ...)
