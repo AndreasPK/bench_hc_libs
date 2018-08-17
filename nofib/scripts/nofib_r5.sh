@@ -3,7 +3,7 @@
 
 LOGNAME=$1
 LOG_DIR=~/logs_r5
-TREE_DIR=~/trees
+TREE_DIR=~/trees_r5
 RUNS=5
 
 
@@ -12,7 +12,7 @@ mkdir -p ${TREE_DIR}
 git clone --recursive git://git.haskell.org/ghc.git ${TREE_DIR}/head
 
 cd ${TREE_DIR}/head
-git checkout 932300bb55c8745aea7f29dc36b6d5021e6855c8
+git checkout 120cc9f8
 git submodule update --init --recursive
 git clean -fd
 ./boot
