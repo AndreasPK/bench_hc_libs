@@ -77,7 +77,7 @@ config = buildConfig $ do
     treeDir "~/trees4"
     logDir "~/logs4"
     headDir "head"
-    baseCommit "932300bb55c8745aea7f29dc36b6d5021e6855c8"
+    baseCommit "120cc9f8"
 
     let noCalls = patch "noCalls"
     let someCalls = patch "someCalls"

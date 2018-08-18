@@ -67,7 +67,7 @@ runHead conf =
 makeCommand :: (Doc (),Doc ()) -> Doc ()
 makeCommand (benchName, extraArgs) =
     "make clean && make boot && make EXTRA_HC_OPTS=" <> dquotes extraArgs <+>
-        "NoFibRuns=${RUNS} 2>&1 | tee ${LOG_DIR}/log${LOGNAME}" <> benchName <> hardline
+        "NoFibRuns=${RUNS} -k 2>&1 | tee ${LOG_DIR}/log${LOGNAME}" <> benchName <> hardline
 
 runPatches :: T.BenchConfState -> Doc ()
 runPatches conf =
