@@ -140,5 +140,5 @@ applyConfig config =
 buildPatch :: Doc ()
 buildPatch =
     "./boot" <> hardline <>
-    "./configure" <> hardline <>
+    "./configure --enable-tarballs-autodownload" <> hardline <>
     "make &" <> hardline

@@ -82,7 +82,7 @@ config = buildConfig $ do
     let noCalls = patch "noCalls"
     let someCalls = patch "someCalls"
     let allCalls = patch "allCalls"
---    let adjusted = patch "adjusted"
+    let adjusted = patch "adjusted"
     let vanilla = patch "vanilla"
 
     let githubLayout = fromGithub "https://github.com/AndreasPK/ghc.git" "layoutOpt"
@@ -92,14 +92,14 @@ config = buildConfig $ do
         noCalls,
         --someCalls,
         allCalls,
-        --adjusted,
+        adjusted,
         vanilla
         ]
 
     addBuild $ buildInfo noCalls githubLayout (patchBuildConfig $ Right (-3000))
     -- addBuild $ buildInfo someCalls githubLayout (patchBuildConfig $ Right (300))
     addBuild $ buildInfo allCalls githubLayout (patchBuildConfig $ Right (310))
---    addBuild $ buildInfo adjusted githubLayout (patchBuildConfig $ Left True)
+    addBuild $ buildInfo adjusted githubLayout (patchBuildConfig $ Left True)
     addBuild $ buildInfo vanilla githubLayout (patchBuildConfig $ Left False)
 
     mapM_ forAll
@@ -120,7 +120,7 @@ config = buildConfig $ do
     forPatch noCalls    $ always  ignoreCalls
     --forPatch someCalls  $ always  ignoreSomeCalls
     forPatch allCalls   $ always  considerAllCalls
-
+    forPatch adjusted   $ always  "-fno-new-blocklayout -fno-vanilla-blocklayout"
 
 
 
