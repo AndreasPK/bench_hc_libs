@@ -16,6 +16,10 @@ calls for layout unless stated otherwise.
 
 Commit ids reference my [GHC fork](https://github.com/AndreasPK/ghc/tree/layoutOpt) and might not stay valid if I perform rebases or similar cleanup work.
 
+## Results
+
+These are chronological, so scroll down for the lastest result.
+
 ### Speedup Results - Commit 619d38e73a31409b7eeacc2521f71e57264c67e0
 
 Higher is better
