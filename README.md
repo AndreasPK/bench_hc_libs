@@ -79,3 +79,23 @@ Higher is better, if two results are listed the first is without calls considere
 * 1) Probably a measurement error because of background noise.
 * 2) https://github.com/haskell-perf/xml
 * NA: Net yet measured (time, doesn't build easily on the platform, ...)
+
+
+### Speedup Result - Commit 9eb833cf
+
+* Performance tuning - regression check.
+
+Higher is better, if two results are listed the first is without calls considered the second with all calls considered.
+
+| Library       | Sandy Bridge (Linux) | Haswell (Linux) | Skylake (Win) - NA|
+| ------------- |------------:  | ----:             | -----: |
+| aeson         | +2%/+1.9%     | +1.9%/+0.6%       |
+| containers    | +1.7%/+1.9%   | +2.5%/+2.4%
+| megaparsec    | +2.8%/+2.6%   | +5.9%/7.8%
+| perf-xml 2)   |
+| text          | +5.5%/4.1%    | +5.6%/+4.1%       | NA
+| Vector *2     | +2.3%/3.2%    | +1.2%/+2.0%       | win +3.9%/+5%
+| nofib         | -0.4%         | +0.3%
+
+* 2) https://github.com/haskell-perf/xml
+* NA: Net yet measured (time, doesn't build easily on the platform, ...)
