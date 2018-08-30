@@ -1,8 +1,9 @@
 set -x
 
 LOG_DIR=../benchResults
-FLAG_NAMES=('vanilla' 'all' 'some' 'none')
-FLAG_STRS=('-fno-new-blocklayout -fvanilla-blocklayout' '-fnew-blocklayout -fcfg-weights=callWeight=310' '-fnew-blocklayout -fcfg-weights=callWeight=300' '-fnew-blocklayout -fcfg-weights=callWeight=-900')
+FLAG_NAMES=('vanilla' 'all' 'some' 'none' 'adjusted')
+FLAG_STRS=('-fno-new-blocklayout -fvanilla-blocklayout' '-fnew-blocklayout -fcfg-weights=callWeight=310' '-fnew-blocklayout -fcfg-weights=callWeight=300' '-fnew-blocklayout -fcfg-weights=callWeight=-900' '-fno-new-blocklayout -fno-vanilla-blocklayout')
+
 mkdir -p "$LOG_DIR"
 
 
@@ -37,9 +38,10 @@ cabal new-update
 #-ddump-asm -ddump-opt-cmm -ddump-simpl -ddump-cfg-weights -ddump-to-file -dsuppress-all
 
 DIR_NAME=${PWD##*/}
-COMPILER_NAME=${DIR_NAME#c_}
 BENCHMARKS="algorithms"
-for i in {0..3};
+NBENCHS=${#FLAG_NAMES[@]}
+COMPILER_NAME=${DIR_NAME#c_}
+for i in $(seq 0 $NBENCHS);
 do
     HC_FLAGS="${FLAG_STRS[$i]}"
     FLAG_VARIANT="${FLAG_NAMES[$i]}"
