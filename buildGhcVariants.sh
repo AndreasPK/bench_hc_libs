@@ -3,12 +3,12 @@
 #Build 5 variants of GHC in folder $TREE_DIR
 #All five builds will run in parallel.
 TREE_DIR=~/trees
-THREADS="-j2" # Use "-j2" if you have 8+ cores
+THREADS="-j1" # Use "-j2" if you have 8+ cores
 
 if [[ $* == *--no-clean* ]]; then
     CLEAN=""
 else
-    CLEAN=git clean -fd
+    CLEAN="git clean -fd"
 fi
 
 mkdir -p ${TREE_DIR}
@@ -16,11 +16,11 @@ mkdir -p ${TREE_DIR}
 git clone --recursive git://git.haskell.org/ghc.git ${TREE_DIR}/head
 
 cd ${TREE_DIR}/head
-git checkout 120cc9f8
+git checkout 565ef4cc
 git submodule update --init --recursive
 ${CLEAN}
 echo 'SRC_HC_OPTS        = -O -H64m
-GhcStage1HcOpts    = -O
+GhcStage1HcOpts    = -O2
 GhcStage2HcOpts    = -O2
 GhcLibHcOpts       = -O2
 GhcRtsHcOpts       = -O2
@@ -45,7 +45,7 @@ git checkout vanilla/layoutOpt
 git submodule update --init --recursive
 ${CLEAN}
 echo 'SRC_HC_OPTS        = -O -H64m
-GhcStage1HcOpts    = -O
+GhcStage1HcOpts    = -O2
 GhcStage2HcOpts    = -O2  -fno-new-blocklayout  -fvanilla-blocklayout
 GhcLibHcOpts       = -O2  -fno-new-blocklayout  -fvanilla-blocklayout
 GhcRtsHcOpts       = -O2  -fno-new-blocklayout  -fvanilla-blocklayout
@@ -70,7 +70,7 @@ git checkout adjusted/layoutOpt
 git submodule update --init --recursive
 ${CLEAN}
 echo 'SRC_HC_OPTS        = -O -H64m
-GhcStage1HcOpts    = -O
+GhcStage1HcOpts    = -O2
 GhcStage2HcOpts    = -O2  -fno-new-blocklayout  -fno-vanilla-blocklayout
 GhcLibHcOpts       = -O2  -fno-new-blocklayout  -fno-vanilla-blocklayout
 GhcRtsHcOpts       = -O2  -fno-new-blocklayout  -fno-vanilla-blocklayout
@@ -95,7 +95,7 @@ git checkout allCalls/layoutOpt
 git submodule update --init --recursive
 ${CLEAN}
 echo 'SRC_HC_OPTS        = -O -H64m
-GhcStage1HcOpts    = -O
+GhcStage1HcOpts    = -O2
 GhcStage2HcOpts    = -O2  -fnew-blocklayout     -fvanilla-blocklayout     -fcfg-weights=callWeight=310
 GhcLibHcOpts       = -O2  -fnew-blocklayout     -fvanilla-blocklayout     -fcfg-weights=callWeight=310
 GhcRtsHcOpts       = -O2  -fnew-blocklayout     -fvanilla-blocklayout     -fcfg-weights=callWeight=310
@@ -120,7 +120,7 @@ git checkout someCalls/layoutOpt
 git submodule update --init --recursive
 ${CLEAN}
 echo 'SRC_HC_OPTS        = -O -H64m
-GhcStage1HcOpts    = -O
+GhcStage1HcOpts    = -O2
 GhcStage2HcOpts    = -O2  -fnew-blocklayout     -fvanilla-blocklayout     -fcfg-weights=callWeight=300
 GhcLibHcOpts       = -O2  -fnew-blocklayout     -fvanilla-blocklayout     -fcfg-weights=callWeight=300
 GhcRtsHcOpts       = -O2  -fnew-blocklayout     -fvanilla-blocklayout     -fcfg-weights=callWeight=300
@@ -145,7 +145,7 @@ git checkout noCalls/layoutOpt
 git submodule update --init --recursive
 ${CLEAN}
 echo 'SRC_HC_OPTS        = -O -H64m
-GhcStage1HcOpts    = -O
+GhcStage1HcOpts    = -O2
 GhcStage2HcOpts    = -O2  -fnew-blocklayout     -fvanilla-blocklayout     -fcfg-weights=callWeight=-3000
 GhcLibHcOpts       = -O2  -fnew-blocklayout     -fvanilla-blocklayout     -fcfg-weights=callWeight=-3000
 GhcRtsHcOpts       = -O2  -fnew-blocklayout     -fvanilla-blocklayout     -fcfg-weights=callWeight=-3000

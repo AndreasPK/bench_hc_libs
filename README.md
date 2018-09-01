@@ -11,8 +11,8 @@ Benchmark times are determined by building the benchmark and all dependencies us
 algorithm.
 Then running the benchmarks and exporting the result to csv taking the given mean as result.
 
-Three variants of the new code layout were run. Results are comparisons against the one not considering
-calls for layout unless stated otherwise.
+Three variants of the new code layout were run. Results are comparisons of the old layout algorithm
+against the new algorithm ignoring calls unless stated otherwise.
 
 Commit ids reference my [GHC fork](https://github.com/AndreasPK/ghc/tree/layoutOpt) and might not stay valid if I perform rebases or similar cleanup work.
 
@@ -96,10 +96,11 @@ Higher is better, if two results are listed the first is without calls considere
 | aeson         | +2%/+1.9%     | +1.9%/+0.6%       |
 | containers    | +1.7%/+1.9%   | +2.5%/+2.4%
 | megaparsec    | +2.8%/+2.6%   | +5.9%/7.8%
-| perf-xml 2)   |
+| perf-xml 2)3) |
 | text          | +5.5%/4.1%    | +5.6%/+4.1%       | NA
-| Vector *2     | +2.3%/3.2%    | +1.2%/+2.0%       | win +3.9%/+5%
+| Vector        | +2.3%/3.2%    | +1.2%/+2.0%       | win +3.9%/+5%
 | nofib         | -0.4%         | +0.3%
 
 * 2) https://github.com/haskell-perf/xml
+* 3) Measured against head,
 * NA: Net yet measured (time, doesn't build easily on the platform, ...)
