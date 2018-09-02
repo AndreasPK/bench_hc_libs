@@ -7,11 +7,11 @@ library(nortest)
 gm_mean = function(x, na.rm=TRUE){
   exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
 }
-resultPath <- "remoteResults/ben6/"
+resultPath <- "results/ben1_r8/"
 compiler <- "allCalls"
 
 benchmarks = c("bench-speed")
-variants <- c("all",  "vanilla", "some", "none")
+variants <- c("all",  "vanilla", "some", "none", "adjusted")
 
 csvresults <- list()
 for(variant in variants) {
