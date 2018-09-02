@@ -23,10 +23,8 @@ do
 
         LOG_DIR=../benchResults
         FLAG_NAMES=('vanilla' 'all' 'some' 'none' 'adjusted')
-        FLAG_STRS=('-fno-new-blocklayout -fvanilla-blocklayout'
-                '-fnew-blocklayout -fcfg-weights=callWeight=310'
-                '-fnew-blocklayout -fcfg-weights=callWeight=300'
-                '-fnew-blocklayout -fcfg-weights=callWeight=-900'
+        FLAG_STRS=('-fno-new-blocklayout -fvanilla-blocklayout' '-fnew-blocklayout -fcfg-weights=callWeight=310'
+                '-fnew-blocklayout -fcfg-weights=callWeight=300' '-fnew-blocklayout -fcfg-weights=callWeight=-900'
                 '-fno-new-blocklayout -fno-vanilla-blocklayout')
         NFLAGS=$((${#FLAG_NAMES[@]} - 1))
         echo $NFLAGS
@@ -78,7 +76,8 @@ do
         FLAG_VARIANT="head"
         STORE_DIR=~/.store_"${FLAG_VARIANT}"
         BUILD_DIR=d-"$FLAG_VARIANT"
-        HC="$HOME/trees/head/inplace/bin/ghc-stage2"
+        HC="$HC_HEAD"
+        cabal --store-dir="$STORE_DIR" new-build --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests -j5 all
         for benchmark in ${BENCHMARKS};
         do
             echo "Benchmark: $benchmark"
