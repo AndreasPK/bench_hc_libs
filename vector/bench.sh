@@ -1,7 +1,7 @@
 set -x
 
-mkdir -p "$LOG_DIR"
 LOG_DIR=../benchResults
+mkdir -p "$LOG_DIR"
 FLAG_NAMES=('vanilla' 'all' 'some' 'none' 'adjusted')
 FLAG_STRS=( '-fno-new-blocklayout -fvanilla-blocklayout'
             '-fnew-blocklayout -fcfg-weights=callWeight=310'
