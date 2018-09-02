@@ -1,3 +1,4 @@
+set -x
 
 
 for compiler in allCalls;
@@ -20,11 +21,11 @@ do
     cp in.xml "c_${compiler}"/
     cd "c_${compiler}"
 
-        set -x
 
         LOG_DIR=../benchResults
         FLAG_NAMES=('vanilla' 'all' 'some' 'none' 'adjusted')
         FLAG_STRS=('-fno-new-blocklayout -fvanilla-blocklayout' '-fnew-blocklayout -fcfg-weights=callWeight=310' '-fnew-blocklayout -fcfg-weights=callWeight=300' '-fnew-blocklayout -fcfg-weights=callWeight=-900' '-fno-new-blocklayout -fno-vanilla-blocklayout')
+        NFLAGS=$((${#FLAG_NAMES[@]} - 1))
         mkdir -p "$LOG_DIR"
 
         if [ ! -d "xml" ]; then
@@ -44,14 +45,14 @@ do
         sed "s/Odph/O2/" -i vector-algorithms/vector-algorithms.cabal
         fi
 
-        #cabal new-update
+        cabal new-update
 
         #Build with different flags
 
         DIR_NAME=${PWD##*/}
         COMPILER_NAME=${DIR_NAME#c_}
         BENCHMARKS="time"
-        for i in {0..3};
+        for i in $(seq 0 $NFLAGS);
         do
             HC_FLAGS="${FLAG_STRS[$i]}"
             FLAG_VARIANT="${FLAG_NAMES[$i]}"
