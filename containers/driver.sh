@@ -5,9 +5,12 @@ do
     unameOut="$(uname -s)"
     case $unameOut in
     MINGW*)
-        HC="C:\\ghc\\msys64\\home\\Andi\\trees\\${compiler}\\inplace\\bin\\ghc-stage2.exe" ;;
+        HC="C:\\ghc\\msys64\\home\\Andi\\trees\\${compiler}\\inplace\\bin\\ghc-stage2.exe";
+        HC_HEAD="C:\\ghc\\msys64\\home\\Andi\\trees\\head\\inplace\\bin\\ghc-stage2.exe";
+        ;;
     *)
-        HC=~/trees/${compiler}/inplace/bin/ghc-stage2 ;;
+        HC=~/trees/${compiler}/inplace/bin/ghc-stage2 ;
+        HC_HEAD=~/trees/head/inplace/bin/ghc-stage2 ;;
     esac
 
     mkdir "c_${compiler}" -p
@@ -15,10 +18,15 @@ do
     cd "c_${compiler}"
 
         LOG_DIR=../benchResults
-        FLAG_NAMES=('vanilla' 'all' 'some' 'none' 'adjusted')
-        FLAG_STRS=('-fno-new-blocklayout -fvanilla-blocklayout' '-fnew-blocklayout -fcfg-weights=callWeight=310' '-fnew-blocklayout -fcfg-weights=callWeight=300' '-fnew-blocklayout -fcfg-weights=callWeight=-900' '-fno-new-blocklayout -fno-vanilla-blocklayout')
         mkdir -p "$LOG_DIR"
-
+        FLAG_NAMES=('vanilla' 'all' 'some' 'none' 'adjusted')
+        FLAG_STRS=(
+            '-fno-new-blocklayout -fvanilla-blocklayout'
+            '-fnew-blocklayout -fcfg-weights=callWeight=310'
+            '-fnew-blocklayout -fcfg-weights=callWeight=300'
+            '-fnew-blocklayout -fcfg-weights=callWeight=-900'
+            '-fno-new-blocklayout -fno-vanilla-blocklayout')
+        NFLAGS=$((${#FLAG_NAMES[@]} - 1))
 
         #if [ -z ${1} ]; then
         #    echo "Please specify a compiler: $0 <HC>"
@@ -37,18 +45,18 @@ do
         #cd aeson
         #cabal new-update
 
-        if [ ! -d "primitive" ]; then
-        git clone https://github.com/haskell/primitive.git
-        cd primitive
-        git reset --hard a2af610
-        cd ..
-        fi
+        # if [ ! -d "primitive" ]; then
+        # git clone https://github.com/haskell/primitive.git
+        # cd primitive
+        # git reset --hard a2af610
+        # cd ..
+        # fi
 
-        if [ ! -d "vector-algorithms" ]; then
-        curl https://hub.darcs.net/dolio/vector-algorithms/dist --output vector-algorithms.zip
-        unzip vector-algorithms.zip
-        sed "s/Odph/O2/" -i vector-algorithms/vector-algorithms.cabal
-        fi
+        # if [ ! -d "vector-algorithms" ]; then
+        # curl https://hub.darcs.net/dolio/vector-algorithms/dist --output vector-algorithms.zip
+        # unzip vector-algorithms.zip
+        # sed "s/Odph/O2/" -i vector-algorithms/vector-algorithms.cabal
+        # fi
 
         cabal new-update
 
@@ -63,12 +71,15 @@ do
         for benchmark in ${BENCHMARKS};
         do
 
-            for i in {0..3};
+            for i in $(seq 0 $NBENCHS);
             do
                 HC_FLAGS="${FLAG_STRS[$i]}"
                 FLAG_VARIANT="${FLAG_NAMES[$i]}"
                 STORE_DIR=~/.store_"${FLAG_VARIANT}"
                 BUILD_DIR=d-"$FLAG_VARIANT"
+
+                cabal --store-dir="$STORE_DIR" new-build --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests all
+
                 echo "Benchmark: $benchmark - Flags ${FLAG_VARIANT} - ${HC_FLAGS}"
 
                 cabal --store-dir="$STORE_DIR" new-run --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
@@ -77,10 +88,12 @@ do
 
             #Benchmark against head
             HC_FLAGS=""
+            HC="$HC_HEAD"
             STORE_DIR=~/.store_head
             BUILD_DIR=d-head
-            cabal --store-dir="$STORE_DIR" new-run --builddir="$BUILD_DIR" -w "$HOME/trees/head/inplace/bin/ghc-stage2" --enable-benchmarks --disable-tests \
-            "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.head.${benchmark}.csv"
+            cabal --store-dir="$STORE_DIR" new-build --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests all
+            cabal --store-dir="$STORE_DIR" new-run --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
+                "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.head.${benchmark}.csv"
 
         done
 
