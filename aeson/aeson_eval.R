@@ -6,13 +6,13 @@ gm_mean = function(x, na.rm=TRUE){
   exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
 }
 
-resultPath <- "results/sky2_r3/"
+resultPath <- "results/ben1_r7/"
 compiler <- "allCalls"
 
 benchmarks = c("aeson-benchmark-typed", "aeson-benchmark-micro", "aeson-benchmark-map", "aeson-benchmark-foldable",
                "aeson-benchmark-escape", "aeson-benchmark-dates", "aeson-benchmark-compare-with-json", "aeson-benchmark-compare", "aeson-benchmark-auto-compare")
 
-variants <- c("all",  "vanilla", "none") #"some"
+variants <- c("all",  "vanilla", "none", "head") #"some"
 
 csvresults <- list()
 for(variant in variants) {
@@ -39,6 +39,9 @@ for(variant in variants) {
   }
 }
 
+sort(speedups$none$`aeson-benchmark-typed`)
+
+
 meanSpeedups <- matrix(nrow = length(benchmarks), ncol = length(variants), dimnames = list(bench = benchmarks, algo=variants))
 for(vi in 1:length(variants)) {
   variant <- variants[vi]
@@ -56,6 +59,6 @@ meanSpeedups <- rbind(meanSpeedups, geoMean_overall)
 meanSpeedups
 heatmap(meanSpeedups)
 
-sort(apply(FUN = gm_mean, X = meanSpeedups, MARGIN = c(2))) * 100
+sort(apply(FUN = gm_mean, X = meanSpeedups, MARGIN = c(2))) * 100 - 100
 
 

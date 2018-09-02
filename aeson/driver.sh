@@ -65,16 +65,18 @@ do
 
 
     FLAG_NAMES=('vanilla' 'all' 'some' 'none' 'adjusted')
-    FLAG_STRS=('-fno-new-blocklayout -fvanilla-blocklayout' '-fnew-blocklayout -fcfg-weights=callWeight=310' '-fnew-blocklayout -fcfg-weights=callWeight=300' '-fnew-blocklayout -fcfg-weights=callWeight=-900' '-fno-new-blocklayout -fno-vanilla-blocklayout')
+    FLAG_STRS=( '-fno-new-blocklayout -fvanilla-blocklayout' '-fnew-blocklayout -fcfg-weights=callWeight=310'
+                '-fnew-blocklayout -fcfg-weights=callWeight=300' '-fnew-blocklayout -fcfg-weights=callWeight=-900'
+                '-fno-new-blocklayout -fno-vanilla-blocklayout')
+    NFLAGS=$((${#FLAG_NAMES[@]} - 1))
     BENCHMARKS="aeson-benchmark-typed aeson-benchmark-micro aeson-benchmark-map aeson-benchmark-json-parse aeson-benchmark-foldable aeson-benchmark-escape aeson-benchmark-dates aeson-benchmark-compare-with-json aeson-benchmark-compare aeson-benchmark-auto-compare aeson-benchmark-aeson-parse aeson-benchmark-aeson-encode"
     cp aeson/benchmarks/json-data . -r
 
     cabal new-update
 
     DIR_NAME=${PWD##*/}
-    NBENCHS=${#FLAG_NAMES[@]}
     COMPILER_NAME=${DIR_NAME#c_}
-    for i in $(seq 0 $NBENCHS);
+    for i in $(seq 0 $NFLAGS);
     do
         HC_FLAGS="${FLAG_STRS[$i]}"
         FLAG_VARIANT="${FLAG_NAMES[$i]}"
