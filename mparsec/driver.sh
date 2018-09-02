@@ -28,7 +28,8 @@ do
                 '-fnew-blocklayout -fcfg-weights=callWeight=300'
                 '-fnew-blocklayout -fcfg-weights=callWeight=-900'
                 '-fno-new-blocklayout -fno-vanilla-blocklayout')
-        NFLAGS=${#FLAG_NAMES[@]}
+        NFLAGS=$((${#FLAG_NAMES[@]} - 1))
+        echo $NFLAGS
         mkdir -p "$LOG_DIR"
 
         if [ ! -d "megaparsec" ]; then
