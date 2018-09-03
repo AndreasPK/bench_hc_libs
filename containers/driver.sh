@@ -1,4 +1,4 @@
-
+set -x
 for compiler in allCalls;
 #for compiler in adjusted  allCalls  head  noCalls  someCalls  vanilla
 do
@@ -71,7 +71,7 @@ do
         for benchmark in ${BENCHMARKS};
         do
 
-            for i in $(seq 0 $NBENCHS);
+            for i in $(seq 0 $NFLAGS);
             do
                 HC_FLAGS="${FLAG_STRS[$i]}"
                 FLAG_VARIANT="${FLAG_NAMES[$i]}"
