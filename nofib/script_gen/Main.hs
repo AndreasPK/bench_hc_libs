@@ -47,7 +47,7 @@ considerAllCalls =
 patchBuildConfig :: Either Bool Int -> String
 patchBuildConfig conf =
     "SRC_HC_OPTS        = -O -H64m\n" ++
-    "GhcStage1HcOpts    = -O\n" ++
+    "GhcStage1HcOpts    = -O2\n" ++
     "GhcStage2HcOpts    = -O2 " ++ newSetting ++ vanilla ++ weight ++ "\n" ++
     "GhcLibHcOpts       = -O2 "++ newSetting ++ vanilla ++ weight ++ "\n" ++
     "GhcRtsHcOpts       = -O2 "++ newSetting ++ vanilla ++ weight ++ "\n" ++
@@ -77,7 +77,7 @@ config = buildConfig $ do
     treeDir "~/trees4"
     logDir "~/logs4"
     headDir "head"
-    baseCommit "120cc9f8"
+    baseCommit "565ef4cc"
 
     let noCalls = patch "noCalls"
     let someCalls = patch "someCalls"
