@@ -74,8 +74,8 @@ patchBuildConfig conf =
 
 config :: T.ConfState
 config = buildConfig $ do
-    treeDir "~/trees4"
-    logDir "~/logs4"
+    treeDir "~/trees"
+    logDir "~/logs"
     headDir "head"
     baseCommit "565ef4cc"
 
@@ -135,4 +135,3 @@ main = do
     putStrLn $ render buildHead
     putStrLn $ render buildPatches
     putStrLn $ "wait"
-    putStrLn $ render bench
