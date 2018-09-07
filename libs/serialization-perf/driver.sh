@@ -34,7 +34,7 @@ do
         fi
 
         if [ ! -d "packman" ]; then
-            git clone https://github.com/jberthold/packman.git
+            git clone https://github.com/AndreasPK/packman.git
         fi
 
         cabal new-update
