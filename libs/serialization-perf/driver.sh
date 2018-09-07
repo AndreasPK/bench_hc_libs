@@ -26,7 +26,7 @@ do
         mkdir -p "$LOG_DIR"
 
         if [ ! -d "flat" ]; then
-            git clone https://github.com/Quid2/flat.git
+            git clone https://github.com/AndreasPK/flat.git
         fi
 
         if [ ! -d "serialization" ]; then
