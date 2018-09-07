@@ -31,6 +31,9 @@ do
 
         if [ ! -d "serialization" ]; then
             git clone https://github.com/AndreasPK/serialization.git
+            cd serialization
+            git checkout statistics
+            cd ..
         fi
 
         if [ ! -d "packman" ]; then
