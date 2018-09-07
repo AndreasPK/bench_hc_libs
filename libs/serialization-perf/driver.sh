@@ -35,6 +35,9 @@ do
 
         if [ ! -d "packman" ]; then
             git clone https://github.com/AndreasPK/packman.git
+            cd packman
+            git checkout ghc_86_rename
+            cd ..
         fi
 
         cabal new-update
