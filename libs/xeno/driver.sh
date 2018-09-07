@@ -30,7 +30,7 @@ do
         fi
 
         if [ ! -d "data" ]; then
-            cp xeno/data .
+            cp xeno/data . -r
         fi
 
         # if [ ! -d "primitive" ]; then
