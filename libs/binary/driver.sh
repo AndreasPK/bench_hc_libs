@@ -27,7 +27,7 @@ do
 
         if [ ! -d "binary" ]; then
             git clone https://github.com/kolmodin/binary.git
-            sed "s/name: binary/name: binary-bench/" binary/binary.cabal  -i
+            sed "s/name:            binary/name: binary-bench/" binary/binary.cabal  -i
         fi
 
         cabal new-update
