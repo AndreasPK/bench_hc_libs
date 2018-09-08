@@ -46,7 +46,7 @@ do
             echo "Configuration ${FLAG_NAMES[$i]} - ${HC_FLAGS}"
             cabal --store-dir="$STORE_DIR" new-build --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests -j5 "$BENCHMARKS"
 
-            for benchmark in $BENCHMARKS
+            for benchmark in "${BENCHMARKS[@]}"
             do
                 echo "Benchmark: $benchmark"
                 cabal --store-dir="$STORE_DIR" new-run --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
@@ -60,7 +60,7 @@ do
         BUILD_DIR=d-"$FLAG_VARIANT"
         HC="$HC_HEAD"
         cabal --store-dir="$STORE_DIR" new-build --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests -j5 "$BENCHMARKS"
-        for benchmark in $BENCHMARKS
+        for benchmark in "${BENCHMARKS[@]}"
         do
             echo "Benchmark: $benchmark"
             cabal --store-dir="$STORE_DIR" new-run --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
