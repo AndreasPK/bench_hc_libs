@@ -1,6 +1,6 @@
 set -x
 
-for compiler in allCalls;
+for compiler in "allCalls";
 #for compiler in adjusted  allCalls  head  noCalls  someCalls  vanilla
 do
     unameOut="$(uname -s)"
@@ -30,13 +30,17 @@ do
             sed "s/name:            binary/name: binary-bench/" binary/binary.cabal  -i
         fi
 
+        if [ ! -f "generics-bench.cache.gz" ]; then
+            cp binary/generics-bench.cache.gz .
+        fi
+
         cabal new-update
 
         #Build with different flags
 
         DIR_NAME=${PWD##*/}
         COMPILER_NAME=${DIR_NAME#c_}
-        BENCHMARKS=('put' 'get' 'builder' 'generics-bench')
+        BENCHMARKS=('get' 'builder' 'generics-bench' 'put')
         for i in $(seq 0 $NFLAGS);
         do
             HC_FLAGS="${FLAG_STRS[$i]}"
@@ -46,7 +50,7 @@ do
             echo "Configuration ${FLAG_NAMES[$i]} - ${HC_FLAGS}"
             cabal --store-dir="$STORE_DIR" new-build --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests -j5 "$BENCHMARKS"
 
-            for benchmark in "${BENCHMARKS[@]}"
+            for benchmark in "${BENCHMARKS[@]}";
             do
                 echo "Benchmark: $benchmark"
                 cabal --store-dir="$STORE_DIR" new-run --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
@@ -60,14 +64,12 @@ do
         BUILD_DIR=d-"$FLAG_VARIANT"
         HC="$HC_HEAD"
         cabal --store-dir="$STORE_DIR" new-build --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests -j5 "$BENCHMARKS"
-        for benchmark in "${BENCHMARKS[@]}"
+        for benchmark in "${BENCHMARKS[@]}";
         do
             echo "Benchmark: $benchmark"
             cabal --store-dir="$STORE_DIR" new-run --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
                "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_VARIANT}.${benchmark}.csv" -L 10
         done
-
-
 
     cd ..
 done
