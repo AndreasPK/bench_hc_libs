@@ -8,6 +8,8 @@ repository head.hackage
 
 packages:
     attoparsec/
+    attoparsec/benchmarks/
+    
 
 
 

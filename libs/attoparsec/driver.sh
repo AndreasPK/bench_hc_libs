@@ -32,8 +32,10 @@ do
 
         if [ ! -d "attoparsec" ]; then
             git clone https://github.com/bos/attoparsec.git
-            # sed -i "1i{-# LANGUAGE UndecidableInstances  #-}" megaparsec/Text/Megaparsec/Error.hs
+            sed -i "s/name:            attoparsec/name: attoparsec-bench/" attoparsec/attoparsec.cabal
         fi
+
+        cp attoparsec/benchmarks/*.txt . -r
 
         # if [ ! -d "primitive" ]; then
         # git clone https://github.com/haskell/primitive.git
@@ -54,7 +56,7 @@ do
 
         DIR_NAME=${PWD##*/}
         COMPILER_NAME=${DIR_NAME#c_}
-        BENCHMARKS="benchmarks"
+        BENCHMARKS="bench:benchmarks"
         for i in $(seq 0 $NFLAGS);
         do
             HC_FLAGS="${FLAG_STRS[$i]}"
