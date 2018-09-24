@@ -50,7 +50,7 @@ do
         # sed "s/Odph/O2/" -i vector-algorithms/vector-algorithms.cabal
         # fi
 
-        #cabal new-update
+        cabal new-update
 
         #Build with different flags
 

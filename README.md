@@ -1,5 +1,7 @@
 # Repo for semi automatic benchmarking of my Code Layout patch.
 
+Scroll to the end for most current result.
+
 ## Methodology
 
 Results are speedup in %: `(OldTime*100)/NewTime`, calculated by taking the geometric mean
