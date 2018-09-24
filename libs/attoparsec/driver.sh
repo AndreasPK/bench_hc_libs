@@ -54,7 +54,7 @@ do
 
         DIR_NAME=${PWD##*/}
         COMPILER_NAME=${DIR_NAME#c_}
-        BENCHMARKS="bench-speed"
+        BENCHMARKS="benchmarks"
         for i in $(seq 0 $NFLAGS);
         do
             HC_FLAGS="${FLAG_STRS[$i]}"
