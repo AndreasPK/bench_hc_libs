@@ -16,7 +16,7 @@ mkdir -p ${TREE_DIR}
 git clone --recursive git://git.haskell.org/ghc.git ${TREE_DIR}/head
 
 cd ${TREE_DIR}/head
-git checkout 565ef4cc
+git checkout e68b439fe5de61b9a2ca51af472185c62ccb8b46
 git submodule update --init --recursive
 ${CLEAN}
 echo 'SRC_HC_OPTS        = -O -H64m

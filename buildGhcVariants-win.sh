@@ -3,7 +3,7 @@
 #Build 5 variants of GHC in folder $TREE_DIR
 #All five builds will run in parallel.
 TREE_DIR=~/trees
-THREADS="-j2" # Use "-j2" if you have 8+ cores
+THREADS="-j1" # Use "-j2" if you have 8+ cores
 
 
 mkdir -p ${TREE_DIR}
@@ -11,7 +11,7 @@ mkdir -p ${TREE_DIR}
 git clone --recursive git://git.haskell.org/ghc.git ${TREE_DIR}/head
 
 cd ${TREE_DIR}/head
-git checkout 565ef4cc
+git checkout e68b439fe5de61b9a2ca51af472185c62ccb8b46
 git submodule update --init --recursive
 git clean -fd
 echo 'SRC_HC_OPTS        = -O -H64m
@@ -54,7 +54,7 @@ BUILD_MAN          = NO
 ' >> mk/build.mk
 ./boot
 ./configure --enable-tarballs-autodownload
-make ${THREADS} &
+make ${THREADS}
 
 git clone --recursive git://git.haskell.org/ghc.git ${TREE_DIR}/adjusted
 
@@ -79,7 +79,7 @@ BUILD_MAN          = NO
 ' >> mk/build.mk
 ./boot
 ./configure --enable-tarballs-autodownload
-make ${THREADS} &
+make ${THREADS}
 
 git clone --recursive git://git.haskell.org/ghc.git ${TREE_DIR}/allCalls
 
@@ -129,8 +129,7 @@ BUILD_MAN          = NO
 ' >> mk/build.mk
 ./boot
 ./configure --enable-tarballs-autodownload
-make ${THREADS} -j2 &
-
+make ${THREADS} 
 git clone --recursive git://git.haskell.org/ghc.git ${TREE_DIR}/noCalls
 
 cd ${TREE_DIR}/noCalls
@@ -154,7 +153,7 @@ BUILD_MAN          = NO
 ' >> mk/build.mk
 ./boot
 ./configure --enable-tarballs-autodownload
-make ${THREADS} -j2 &
+make ${THREADS} &
 
 wait
 echo "Done"
