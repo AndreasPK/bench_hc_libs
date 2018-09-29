@@ -36,6 +36,7 @@ do
         fi
 
         cp attoparsec/benchmarks/*.txt . -r
+        cp attoparsec/benchmarks/json-data/ . -r
 
         # if [ ! -d "primitive" ]; then
         # git clone https://github.com/haskell/primitive.git
