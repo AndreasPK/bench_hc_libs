@@ -6,7 +6,7 @@ gm_mean = function(x, na.rm=TRUE){
   exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
 }
 c_allCalls.all.set-operations-set.csv
-resultPath <- "remoteResults/ben1/" 
+resultPath <- "ben_1/" 
 compiler <- "allCalls"
 
 #get list of files
@@ -24,7 +24,7 @@ for(sn in splitNames) {
 benchmarks
 
 
-variants <- c("all",  "vanilla", "some", "none")
+variants <- c("all",  "vanilla", "some", "none", "head")
 
 csvresults <- list()
 for(variant in variants) {

@@ -6,13 +6,13 @@ gm_mean = function(x, na.rm=TRUE){
   exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
 }
 
-resultPath <- "results/ben1_r7/"
+resultPath <- "ben_1/"
 compiler <- "allCalls"
 
 benchmarks = c("aeson-benchmark-typed", "aeson-benchmark-micro", "aeson-benchmark-map", "aeson-benchmark-foldable",
                "aeson-benchmark-escape", "aeson-benchmark-dates", "aeson-benchmark-compare-with-json", "aeson-benchmark-compare", "aeson-benchmark-auto-compare")
 
-variants <- c("all",  "vanilla", "none", "head") #"some"
+variants <- c("all",  "vanilla", "none", "head", "some")
 
 csvresults <- list()
 for(variant in variants) {
@@ -33,7 +33,7 @@ speedups <- list()
 for(variant in variants) {
   speedups[[variant]] <- list()
   for(benchmark in benchmarks) {
-    speedup <- csvresults[[benchmark]][["vanilla"]]/csvresults[[benchmark]][[variant]]
+    speedup <- csvresults[[benchmark]][["head"]]/csvresults[[benchmark]][[variant]]
     print(speedup)
     speedups[[variant]][[benchmark]] <- speedup
   }
@@ -47,7 +47,7 @@ for(vi in 1:length(variants)) {
   variant <- variants[vi]
   for(bi in 1:length(benchmarks)) {
     benchmark <- benchmarks[bi]
-    speedup <- csvresults[[benchmark]][["vanilla"]]/csvresults[[benchmark]][[variant]]
+    speedup <- csvresults[[benchmark]][["head"]]/csvresults[[benchmark]][[variant]]
     x <- gm_mean(speedup)
     meanSpeedups[bi, vi] <- x
   }

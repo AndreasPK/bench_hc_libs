@@ -5,7 +5,7 @@
 gm_mean = function(x, na.rm=TRUE){
   exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
 }
-resultPath <- "results/sky1/" 
+resultPath <- "ben_1/" 
 compiler <- "allCalls"
 
 #get list of files
@@ -24,7 +24,7 @@ for(sn in splitNames) {
 benchmarks
 
 
-variants <- c("all",  "vanilla", "some", "none")
+variants <- c("all",  "vanilla", "some", "none", "head")
 vanillaVariant <- match(x = c("vanilla"), table = variants)
 csv <- read.csv(paste(resultPath, compiler, ".", variants[[1]], ".", benchmarks[[1]], ".csv", sep=""), header = TRUE)
 benchNames <- csv[,1]

@@ -1,26 +1,17 @@
-# Process nofib data
+# Process megaparsec data
 #library(dplyr)    
 #library(rlang)    
+library(stats)
+library(nortest)
 
 gm_mean = function(x, na.rm=TRUE){
   exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
 }
-#c_allCalls.all.set-operations-set.csv
 resultPath <- "ben_1/"
-#Use _c prefix for older result sets:
-#compiler <- "c_allCalls"
 compiler <- "allCalls"
-benchmarks = c("intmap-benchmarks", "intset-benchmarks", "lookupge-intmap", "lookupge-map", "map-benchmarks",
-               "sequence-benchmarks", "set-benchmarks", "set-operations-intmap", "set-operations-intset", "set-operations-map",
-               "set-operations-set")
 
-variants <- c("all",  "vanilla", "some", "none", "head")
-#variants <- c("all",  "vanilla", "none")
-
-h1 <- read.csv("results/xeon2_r3/head.lookupge-intmap.csv", header = TRUE)
-v1 <- read.csv("results/xeon2_r3/allCalls.none.lookupge-intmap.csv", header = TRUE)
-
-gm_mean((h1/v1)[,2])
+benchmarks = c("serialization")
+variants <- c("all",  "vanilla", "some", "none", "adjusted", "head")
 
 csvresults <- list()
 for(variant in variants) {
@@ -37,7 +28,7 @@ for(variant in variants) {
     names(csvresults[[benchmark]][[variant]]) <- rownames(csv)
   }
 }
-csvresults
+length(csvresults$`bench-speed`$vanilla)
 
 speedups <- list()
 for(variant in variants) {
@@ -48,6 +39,40 @@ for(variant in variants) {
     speedups[[variant]][[benchmark]] <- speedup
   }
 }
+x <- unlist(speedups$all)
+#ben1 <- x
+#ben2 <- x
+#xeon1 <- x
+xeon2 <- x
+
+plot(ben1, col=2, ylim=c(0.85,1.15))
+points(ben2, col=1)
+points(xeon1, col=3)
+points(xeon2, col=4)
+
+xeon <- (xeon1 + xeon2) / 2
+plot(xeon, ylim=c(0.85,1.15))
+
+ben <- (ben1 + ben2)/2
+plot(ben, col = 1, ylim=c(0.85,1.15))
+points(ben1, col=2)
+points(ben2, col=3)
+sort(ben)[1:10]
+sort(xeon)[1:10]
+
+gm_mean(xeon)
+gm_mean(ben)
+
+
+abline(a = 1, b=0)
+y = rnorm(100)
+saphiro.te
+rev(sort(x))
+plot(x)
+plot(sort(x))
+qqnorm(x)
+qqline(x)
+pearson.test(x)
 
 meanSpeedups <- matrix(nrow = length(benchmarks), ncol = length(variants), dimnames = list(bench = benchmarks, algo=variants))
 for(vi in 1:length(variants)) {
@@ -60,8 +85,13 @@ for(vi in 1:length(variants)) {
   }
 }
 geoMean_overall <- apply(FUN = gm_mean, X = meanSpeedups, MARGIN = c(2))
-withSummary <- rbind(meanSpeedups, geoMean_overall)
-withSummary
-geoMean_overall
-heatmap(withSummary)
+
+speedups
+meanSpeedups <- rbind(meanSpeedups, geoMean_overall)
+
+meanSpeedups
+heatmap(meanSpeedups)
+
+(sort(apply(FUN = gm_mean, X = meanSpeedups, MARGIN = c(2))) * 100) - 100
+
 
