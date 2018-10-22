@@ -1,6 +1,6 @@
 set -x
 
-for compiler in allCalls;
+for compiler in allCalls noCalls;
 #for compiler in adjusted  allCalls  head  noCalls  someCalls  vanilla
 do
 
