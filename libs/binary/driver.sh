@@ -27,6 +27,10 @@ do
 
         if [ ! -d "binary" ]; then
             git clone https://github.com/kolmodin/binary.git
+            cd binary
+                git checkout 38adf7ce1ad6a497fba61de500c3f35b186303a9
+                git reset --hard
+            cd ..
             sed "s/name:            binary/name: binary-bench/" binary/binary.cabal  -i
         fi
 
@@ -45,16 +49,16 @@ do
         do
             HC_FLAGS="${FLAG_STRS[$i]}"
             FLAG_VARIANT="${FLAG_NAMES[$i]}"
-            STORE_DIR=~/.store_"${FLAG_VARIANT}"
-            BUILD_DIR=d-"$FLAG_VARIANT"
+            STORE_DIR=~/.store_"${compiler}_${FLAG_VARIANT}"
+            BUILD_DIR=d-"${compiler}_$FLAG_VARIANT"
             echo "Configuration ${FLAG_NAMES[$i]} - ${HC_FLAGS}"
-            cabal --store-dir="$STORE_DIR" new-build --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests -j5 "$BENCHMARKS"
+            cabal --store-dir="$STORE_DIR" new-build --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests "${BENCHMARKS[@]}"
 
             for benchmark in "${BENCHMARKS[@]}";
             do
                 echo "Benchmark: $benchmark"
                 cabal --store-dir="$STORE_DIR" new-run --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
-                    "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_NAMES[$i]}.${benchmark}.csv" -L 10
+                    "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_NAMES[$i]}.${benchmark}.csv" -L10
             done
         done
 
@@ -63,13 +67,14 @@ do
         STORE_DIR=~/.store_"${FLAG_VARIANT}"
         BUILD_DIR=d-"$FLAG_VARIANT"
         HC="$HC_HEAD"
-        cabal --store-dir="$STORE_DIR" new-build --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests -j5 "$BENCHMARKS"
+        cabal --store-dir="$STORE_DIR" new-build --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests "${BENCHMARKS[@]}"
         for benchmark in "${BENCHMARKS[@]}";
         do
             echo "Benchmark: $benchmark"
             cabal --store-dir="$STORE_DIR" new-run --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
-               "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_VARIANT}.${benchmark}.csv" -L 10
+               "$benchmark" -- --csv "$LOG_DIR/${COMPILER_NAME}.${FLAG_VARIANT}.${benchmark}.csv" -L10
         done
+        wait
 
     cd ..
 done
