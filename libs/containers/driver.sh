@@ -32,7 +32,7 @@ function runBenchmark() {
     echo "Benchmark: $NAME"
     #Use -L10 since these are pretty noisy
     cabal --store-dir="$HOME/.${STORE_DIR}" new-run --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
-        "$BENCHMARK" -- --csv "$LOG_DIR/${HC_NAME}.${NAME}.${BENCHMARK}.csv" -L10
+        "$BENCHMARK" -- --csv "../$LOG_DIR/${HC_NAME}.${NAME}.${BENCHMARK}.csv" -L10
 }
 
 
