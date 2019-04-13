@@ -8,9 +8,5 @@ repository head.hackage
 
 packages:
     containers/
---    primitive/
---    vector-algorithms/
 
-
-allow-newer:async,transformers,binary,Glob,citerion,base,primitive,vector,hastache,statistics,vector-algorithms,containers,text
-
+allow-newer:base,template-haskell,ghc-prim,primitive,time
