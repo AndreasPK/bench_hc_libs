@@ -5,8 +5,9 @@
 
 set -x
 
-LOG_DIR=../benchResults
+LOG_DIR=benchResults
 mkdir -p "$LOG_DIR"
+LOG_DIR="../$LOG_DIR"
 
 BENCHMARKS="set-operations-set set-operations-map set-operations-intset set-operations-intmap
             set-benchmarks sequence-benchmarks map-benchmarks lookupge-map lookupge-intmap
@@ -32,7 +33,7 @@ function runBenchmark() {
     echo "Benchmark: $NAME"
     #Use -L10 since these are pretty noisy
     cabal --store-dir="$HOME/.${STORE_DIR}" new-run --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
-        "$BENCHMARK" -- --csv "../$LOG_DIR/${HC_NAME}.${NAME}.${BENCHMARK}.csv" -L10
+        "$BENCHMARK" -- --csv "$LOG_DIR/${HC_NAME}.${NAME}.${BENCHMARK}.csv" -L10
 }
 
 

@@ -5,8 +5,9 @@
 
 set -x
 
-LOG_DIR=../benchResults
+LOG_DIR=benchResults
 mkdir -p "$LOG_DIR"
+LOG_DIR="../$LOG_DIR"
 
 BENCHMARKS="get builder generics-bench put"
 
@@ -29,7 +30,7 @@ function runBenchmark() {
 
     echo "Benchmark: $NAME"
     cabal --store-dir="$HOME/.${STORE_DIR}" new-run --builddir="$BUILD_DIR" -w "$HC" --ghc-options="${HC_FLAGS}" --enable-benchmarks --disable-tests \
-        "$BENCHMARK" -- --csv "../$LOG_DIR/${HC_NAME}.${NAME}.${BENCHMARK}.csv" -n1
+        "$BENCHMARK" -- --csv "$LOG_DIR/${HC_NAME}.${NAME}.${BENCHMARK}.csv" -n1
 }
 
 
