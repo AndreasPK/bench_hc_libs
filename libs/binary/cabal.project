@@ -8,15 +8,11 @@ repository head.hackage
 
 packages:
     binary/
---    packman/
---    flat/
 
 
 package hexpat
     flags: +bundle
 
-allow-newer:base,criterion,vector,template-haskell,stm
-
---async,transformers,binary,Glob,base,primitive,criterion,vector,containers,text,stm
+allow-newer:base,template-haskell,ghc-prim,primitive,time,transformers,criterion
 
 
