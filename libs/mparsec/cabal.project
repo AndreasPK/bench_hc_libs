@@ -11,5 +11,5 @@ packages:
 
 
 
-allow-newer:async,transformers,binary,Glob,vector,criterion,base,primitive
+allow-newer:base,template-haskell,ghc-prim,primitive,time,transformers,criterion
 
