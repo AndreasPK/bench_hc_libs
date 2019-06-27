@@ -7,6 +7,8 @@ repository head.hackage
    key-threshold: 3
 
 packages:
-    containers/
+    containers/containers/
+    containers/containers-tests/
+
 
 allow-newer:base,template-haskell,ghc-prim,primitive,time

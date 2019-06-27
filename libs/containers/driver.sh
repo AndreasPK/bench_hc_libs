@@ -1,6 +1,7 @@
 #!/bin/bash
 
 #Execute using ./driver <pathToGhc> [aliasForGhc [BuildFlags [FlagAlias]]]
+
 #If any optional flag is given all flags before that must also be given.
 
 set -x
@@ -45,6 +46,12 @@ function setup_benchmarks() {
 
     if [ ! -d "containers" ]; then
         git clone http://github.com/haskell/containers.git
+
+        # Symlinks on windows are !FUN!, we don't check for linux as this will just work there as well.
+        cd containers
+        git config --local core.symlinks true
+        git reset --hard
+        cd ..
     fi
     cabal new-update
 }
