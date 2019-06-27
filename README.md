@@ -27,17 +27,22 @@ under lib/<library>/benchResults/<ghc-alias>.<flag-alias>.csv
 
 ## Other important information
 
-In general the HEAD version of repos is run! If you want to benchmark against a snapshot
-over a longer period of time adjust the driver to clone a specific commit instead.
+Some of the packages use Symlinks, so if you use windows make sure you set up your system correctly.
+See here for details: https://www.joshkel.com/2018/01/18/symlinks-in-windows/
 
-We also instruct cabal to use different caches per `ghc-alias`.
+In general things should work at the bleeding edge but I don't actively maintain this.
+If you want to benchmark against a snapshot over a longer period of time
+then I suggest to adjust the driver to clone a specific commit instead.
+
+The drivers also instruct cabal to use different caches per `ghc-alias`.
 This is important since two compilers built with different settings might end up using the same cache otherwise.
 
-## Contributing
+## Other stuff.
 
 If you end up using this in some fashion let me know.
 Knowing people actually use it would go a long way towards me actively maintaining this.
 
-I also welcome contributions if they don't fundamentally change how the setup works.
+I also welcome contributions if they don't fundamentally change how the setup works,
+or maybe even if depending on the change.
 
 
